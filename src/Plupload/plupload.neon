@@ -1,19 +1,19 @@
 services:    
     control:
-        class: App\CrmModule\Components\Gallery\Plupload\PluploadControl
-        implement: App\CrmModule\Components\Gallery\Plupload\IPluploadControlFactory
+        class: nattreid\gallery\plupload\PluploadControl
+        implement: nattreid\gallery\plupload\IPluploadControlFactory
 
     uploader:
-        class: App\CrmModule\Components\Gallery\Plupload\Uploader(%tempDir%/plupload)
+        class: nattreid\gallery\plupload\Uploader(%tempDir%/plupload)
 
     uploadQueue:
-        class: App\CrmModule\Components\Gallery\Plupload\UploadQueue
-        implement: App\CrmModule\Components\Gallery\Plupload\IUploadQueueFactory
+        class: nattreid\gallery\plupload\UploadQueue
+        implement: nattreid\gallery\plupload\IUploadQueueFactory
         parameters: [id]
         arguments: [%id%]
 
     upload:
-        class: App\CrmModule\Components\Gallery\Plupload\Upload
-        implement: App\CrmModule\Components\Gallery\Plupload\IUploadFactory
+        class: nattreid\gallery\plupload\Upload
+        implement: nattreid\gallery\plupload\IUploadFactory
         parameters: [filename, name]
         arguments: [%filename%, %name%]

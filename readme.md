@@ -8,7 +8,7 @@ gallery:
 
 Nacteni tovarny
 ```php
-/** @var \App\CrmModule\Components\Gallery\IGalleryFactory @inject */
+/** @var nattreid\gallery\IGalleryFactory @inject */
 public $galleryFactory;
 ```
 

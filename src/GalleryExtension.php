@@ -1,6 +1,6 @@
 <?php
 
-namespace App\CrmModule\Components\Gallery;
+namespace nattreid\gallery;
 
 /**
  * Nastaveni Gallery
@@ -20,8 +20,8 @@ class GalleryExtension extends \Nette\DI\CompilerExtension {
         $builder = $this->getContainerBuilder();
 
         $builder->addDefinition($this->prefix('gallery'))
-                ->setImplement('\App\CrmModule\Components\Gallery\IGalleryFactory')
-                ->setFactory('\App\CrmModule\Components\Gallery\Gallery')
+                ->setImplement('nattreid\gallery\IGalleryFactory')
+                ->setFactory('nattreid\gallery\Gallery')
                 ->setArguments([$config['maxImageSize'], $config['maxImagesSize']])
                 ->setAutowired(TRUE);
     }
