@@ -1,0 +1,19 @@
+services:    
+    control:
+        class: App\CrmModule\Components\Gallery\Plupload\PluploadControl
+        implement: App\CrmModule\Components\Gallery\Plupload\IPluploadControlFactory
+
+    uploader:
+        class: App\CrmModule\Components\Gallery\Plupload\Uploader(%tempDir%/plupload)
+
+    uploadQueue:
+        class: App\CrmModule\Components\Gallery\Plupload\UploadQueue
+        implement: App\CrmModule\Components\Gallery\Plupload\IUploadQueueFactory
+        parameters: [id]
+        arguments: [%id%]
+
+    upload:
+        class: App\CrmModule\Components\Gallery\Plupload\Upload
+        implement: App\CrmModule\Components\Gallery\Plupload\IUploadFactory
+        parameters: [filename, name]
+        arguments: [%filename%, %name%]

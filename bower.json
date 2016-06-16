@@ -1,0 +1,23 @@
+{
+    "name": "nattreid/gallery",
+    "description": "Gallery for Nette Framework",
+    "license": ["Unlicense"],
+    "authors": [
+        {
+            "name": "Attreid",
+            "email": "attreid@gmail.com"
+        }
+    ],
+    "main": [
+        "./client-side/gallery.js",
+        "./client-side/gallery.less"
+    ],
+    "ignore": [
+        "src",
+        "*.json"
+    ],
+    "dependencies": {
+        "jquery": "~1.12",
+        "font-awesome": "~4.6"
+    }
+}

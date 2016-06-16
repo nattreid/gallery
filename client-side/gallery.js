@@ -1,0 +1,110 @@
+/* ****************************** gallery.js ******************************** */
+
+function Gallery() {
+}
+
+Gallery.viewer;
+Gallery.container;
+Gallery.loaded;
+
+Gallery.sortable = function () {
+    $('.componentGallery .gallery ul').sortable({
+        placeholder: 'ui-state-highlight',
+        opacity: 0.6,
+        update: function (event, ui) {
+            var data = new Array;
+            $(this).find('img').each(function (index) {
+                data.push($(this).data('id'));
+            });
+            $.nette.ajax($(this).closest('ul').data('url').replace('jsonArgument', JSON.stringify(data)));
+        }
+    }).disableSelection();
+};
+
+Gallery.redrawViewer = function () {
+    this.loaded = false;
+    this.viewer = $('.componentGallery .gallery .viewer');
+    this.container = this.viewer.find('.viewer-container');
+
+    if (this.viewer.is(':visible')) {
+        this.resize();
+    } else {
+        this.viewer.css({visibility: 'hidden', display: 'block'});
+        this.resize();
+        this.viewer.css({visibility: '', display: 'none'});
+    }
+};
+
+Gallery.showViewer = function () {
+    this.viewer.fadeIn();
+};
+
+Gallery.resize = function () {
+    if (this.container) {
+        var img = this.container.find('img');
+
+        function resizeImage() {
+            var limit = 30;
+
+            img.removeAttr('style');
+            var width = img.width();
+            var height = img.height();
+
+            var windowWidth = window.innerWidth - limit;
+            var windowHeight = window.innerHeight - limit;
+
+            if (width > windowWidth) {
+                height = height / (width / windowWidth);
+                width = windowWidth;
+            }
+            if (height > windowHeight) {
+                width = width / (height / windowHeight);
+                height = windowHeight;
+            }
+
+            img.width(width);
+            img.height(height);
+
+            Gallery.container.centerFixed();
+        }
+
+        if (this.loaded) {
+            resizeImage();
+        } else {
+            img.load(function () {
+                Gallery.loaded = true;
+                resizeImage();
+            });
+        }
+    }
+};
+
+$(document).ready(function () {
+    Gallery.sortable();
+
+    $(document).on('click', '.componentGallery .buttons .deleteChoosedImage', function () {
+        var data = new Array;
+        var link = $(this).data('url');
+        $('.componentGallery .gallery ul input[type="checkbox"]:checked').each(function () {
+            data.push($(this).data('id'));
+        });
+        $.nette.ajax(link.replace('jsonArgument', JSON.stringify(data)));
+    });
+
+    $(document).on('click', '.componentGallery .gallery ul li img', function () {
+        var checkbox = $(this).closest('li').find('input[type="checkbox"]');
+        checkbox.prop("checked", !checkbox.prop("checked"));
+    });
+
+    // viewer
+    $(document).on('click', '.componentGallery .gallery .viewer .background, .componentGallery .gallery .viewer .viewerClose', function () {
+        $(this).closest('.viewer').fadeOut();
+    });
+
+    $(window).on('resize.gallery', function () {
+        Gallery.resize();
+    });
+
+});
+
+

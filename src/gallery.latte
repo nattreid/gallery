@@ -1,0 +1,47 @@
+<div class="componentGallery {$componentId}" n:snippet="gallery">
+    <div class="uploader">
+        {control plupload}
+    </div>
+    <div class="gallery" >
+        {snippet viewer}
+            <div class="viewer" n:ifset="$viewImage">
+                <div class="background"></div>
+                <div class="viewer-container" n:snippet="image">
+                    <a class="fa fa-remove viewerClose"></a>
+                    <a class="fa fa-chevron-left ajax" data-ajax-off="history" n:href="previousImage! $viewImage->{$model->id}"></a>
+                    <a class="fa fa-chevron-right ajax" data-ajax-off="history" n:href="nextImage! $viewImage->{$model->id}"></a>
+                    <img n:img="$viewImage->{$model->image}, '800x600'">
+                    <script type="text/javascript">
+                        Gallery.redrawViewer();
+                    </script>
+                </div>
+                <script type="text/javascript">
+                    Gallery.showViewer();
+                </script>
+            </div>
+        {/snippet}
+        <ul data-url="{link updatePosition! 'jsonArgument'}">
+            <li n:foreach="$images as $image">
+                <div class="thumb">
+                    <img 
+                        n:img="$image->{$model->image}, '132x88'" 
+                        data-id="{$image->{$model->id}}">
+                </div>
+                <div class="buttons">
+                    <a class="ajax fa fa-search" data-ajax-off="history" n:href="showViewer! $image->{$model->id}" title="{_'default.gallery.show'}"></a>
+                    <input type="checkbox" data-id="{$image->{$model->id}}"/> 
+                    <a class="ajax fa fa-trash" data-ajax-off="history" n:href="deleteImage! $image->{$model->id}" title="{_'default.gallery.deleteImage', 1}"></a>
+                </div>
+            </li>
+        </ul>
+        <div class="buttons">
+            <a class="button deleteChoosedImage" data-url="{link deleteImages! 'jsonArgument'}">{_'default.gallery.deleteImage', 2}</a>
+            <a class="button ajax" data-ajax-off="history" n:href="deleteAllImages!">{_'default.gallery.deleteAllImages'}</a>
+        </div>
+    </div>
+    {if $presenter->isAjax()}
+        <script type="text/javascript">
+            Gallery.sortable();
+        </script>
+    {/if}
+</div>
