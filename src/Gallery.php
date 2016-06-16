@@ -3,8 +3,8 @@
 namespace nattreid\gallery;
 
 use Nette\Application\UI\Control,
-    App\CrmModule\Components\Gallery\Plupload\UploadQueue,
-    App\CrmModule\Components\Gallery\Plupload\IPluploadControlFactory,
+    nattreid\gallery\plupload\UploadQueue,
+    nattreid\gallery\plupload\IPluploadControlFactory,
     Nette\Database\Table\Selection,
     WebChemistry\Images\AbstractStorage,
     Nette\Utils\Image;

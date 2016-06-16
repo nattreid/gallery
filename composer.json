@@ -1,5 +1,5 @@
 {
-    "name": "nattreid/filemanager",
+    "name": "nattreid/gallery",
     "description": "Gallery for Nette Framework",
     "type": "library",
     "license": ["Unlicense"],
@@ -7,16 +7,6 @@
         {
             "name": "Attreid",
             "email": "attreid@gmail.com"
-        }
-    ],
-    "repositories": [
-        {
-            "type": "git",
-            "url": "git@git.newtravel.cz:nattreid/form.git"
-        },
-        {
-            "type": "git",
-            "url": "git@git.newtravel.cz:nattreid/helpers.git"
         }
     ],
     "require": {
