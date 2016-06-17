@@ -3,6 +3,7 @@ Nastavení v **config.neon**
 ```neon
 extensions:
     - NAttreid\Gallery\GalleryExtension
+    - NAttreid\Gallery\Plupload\PluploadExtension
 
 gallery:
     maxImageSize: 2 #MB

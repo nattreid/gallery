@@ -18,10 +18,6 @@ class GalleryExtension extends \Nette\DI\CompilerExtension {
         $config = $this->getConfig($this->default);
 
         $builder = $this->getContainerBuilder();
-        
-        $neon = $this->loadFromFile(__DIR__ . '/gallery.neon');
-        $namespace = 'Gallery';
-        $this->compiler->parseServices($builder, $neon, $namespace);
 
         $builder->addDefinition($this->prefix('gallery'))
                 ->setImplement('NAttreid\Gallery\IGalleryFactory')
