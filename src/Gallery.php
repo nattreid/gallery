@@ -1,10 +1,10 @@
 <?php
 
-namespace nattreid\gallery;
+namespace NAttreid\Gallery;
 
 use Nette\Application\UI\Control,
-    nattreid\gallery\plupload\UploadQueue,
-    nattreid\gallery\plupload\IPluploadControlFactory,
+    NAttreid\Gallery\Plupload\UploadQueue,
+    NAttreid\Gallery\Plupload\IPluploadControlFactory,
     Nette\Database\Table\Selection,
     WebChemistry\Images\AbstractStorage,
     Nette\Utils\Image;

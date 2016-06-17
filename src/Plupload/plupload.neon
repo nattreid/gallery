@@ -1,19 +1,19 @@
 services:    
     control:
-        class: nattreid\gallery\plupload\PluploadControl
-        implement: nattreid\gallery\plupload\IPluploadControlFactory
+        class: NAttreid\Gallery\Plupload\PluploadControl
+        implement: NAttreid\Gallery\Plupload\IPluploadControlFactory
 
     uploader:
-        class: nattreid\gallery\plupload\Uploader(%tempDir%/plupload)
+        class: NAttreid\Gallery\Plupload\Uploader(%tempDir%/plupload)
 
     uploadQueue:
-        class: nattreid\gallery\plupload\UploadQueue
-        implement: nattreid\gallery\plupload\IUploadQueueFactory
+        class: NAttreid\Gallery\Plupload\UploadQueue
+        implement: NAttreid\Gallery\Plupload\IUploadQueueFactory
         parameters: [id]
         arguments: [%id%]
 
     upload:
-        class: nattreid\gallery\plupload\Upload
-        implement: nattreid\gallery\plupload\IUploadFactory
+        class: NAttreid\Gallery\Plupload\Upload
+        implement: NAttreid\Gallery\Plupload\IUploadFactory
         parameters: [filename, name]
         arguments: [%filename%, %name%]

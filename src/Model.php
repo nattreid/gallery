@@ -1,6 +1,6 @@
 <?php
 
-namespace nattreid\gallery;
+namespace NAttreid\Gallery;
 
 use Nette\Database\Table\Selection,
     Nette\Http\Session,

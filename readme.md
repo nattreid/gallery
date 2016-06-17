@@ -1,6 +1,9 @@
 # Galerie pro Nette Framework
 Nastavení v **config.neon**
 ```neon
+extensions:
+    - NAttreid\Gallery\GalleryExtension
+
 gallery:
     maxImageSize: 2 #MB
     maxImagesSize: 50 # MB
@@ -8,7 +11,7 @@ gallery:
 
 Nacteni tovarny
 ```php
-/** @var nattreid\gallery\IGalleryFactory @inject */
+/** @var \NAttreid\Gallery\IGalleryFactory @inject */
 public $galleryFactory;
 ```
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace nattreid\gallery;
+namespace NAttreid\Gallery;
 
 /**
  * Nastaveni Gallery
@@ -18,10 +18,14 @@ class GalleryExtension extends \Nette\DI\CompilerExtension {
         $config = $this->getConfig($this->default);
 
         $builder = $this->getContainerBuilder();
+        
+        $neon = $this->loadFromFile(__DIR__ . '/gallery.neon');
+        $namespace = 'Gallery';
+        $this->compiler->parseServices($builder, $neon, $namespace);
 
         $builder->addDefinition($this->prefix('gallery'))
-                ->setImplement('nattreid\gallery\IGalleryFactory')
-                ->setFactory('nattreid\gallery\Gallery')
+                ->setImplement('NAttreid\Gallery\IGalleryFactory')
+                ->setFactory('NAttreid\Gallery\Gallery')
                 ->setArguments([$config['maxImageSize'], $config['maxImagesSize']])
                 ->setAutowired(TRUE);
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace nattreid\gallery\plupload;
+namespace NAttreid\Gallery\Plupload;
 
 use Nette\DI\CompilerExtension;
 

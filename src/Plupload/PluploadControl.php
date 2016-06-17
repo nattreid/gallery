@@ -1,11 +1,11 @@
 <?php
 
-namespace nattreid\gallery\plupload;
+namespace NAttreid\Gallery\Plupload;
 
-use nattreid\gallery\plupload\IUploadQueueFactory,
-    nattreid\gallery\plupload\Upload,
-    nattreid\gallery\plupload\UploadQueue,
-    nattreid\gallery\plupload\Uploader,
+use NAttreid\Gallery\Plupload\IUploadQueueFactory,
+    NAttreid\Gallery\Plupload\Upload,
+    NAttreid\Gallery\Plupload\UploadQueue,
+    NAttreid\Gallery\Plupload\Uploader,
     Nette\Application\UI\Control,
     Nette\Caching\Cache,
     Nette\Caching\IStorage,

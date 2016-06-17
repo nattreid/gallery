@@ -1,8 +1,8 @@
 <?php
 
-namespace nattreid\gallery\plupload;
+namespace NAttreid\Gallery\Plupload;
 
-use nattreid\gallery\plupload\IUploadFactory,
+use NAttreid\Gallery\Plupload\IUploadFactory,
     Exception,
     Nette\Object;
 
