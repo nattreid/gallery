@@ -12,7 +12,7 @@
 
     $.cachedScript('/js/plupload/' + window.moment.locale() + '.js');
 
-    window.Gallery = {}
+    window.Gallery = {};
 
     window.Gallery.viewer;
     window.Gallery.container;
