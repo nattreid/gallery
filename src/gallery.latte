@@ -12,11 +12,11 @@
                     <a class="fa fa-chevron-right ajax" data-ajax-off="history" n:href="nextImage! $viewImage->{$model->id}"></a>
                     <img n:img="$viewImage->{$model->image}, '800x600'">
                     <script type="text/javascript">
-                        Gallery.redrawViewer();
+                        window.Gallery.redrawViewer();
                     </script>
                 </div>
                 <script type="text/javascript">
-                    Gallery.showViewer();
+                    window.Gallery.showViewer();
                 </script>
             </div>
         {/snippet}
@@ -41,7 +41,7 @@
     </div>
     {if $presenter->isAjax()}
         <script type="text/javascript">
-            Gallery.sortable();
+            window.Gallery.sortable();
         </script>
     {/if}
 </div>
