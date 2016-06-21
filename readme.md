@@ -10,6 +10,16 @@ gallery:
     maxImagesSize: 50 # MB
 ```
 
+Pokud používáte bower, upravte css
+```css
+.plupload_logo {
+    background-image: url('/images/plupload/plupload.png');
+}
+.plupload_thumb_loading {
+    background-image: url('/images/plupload/loading.gif');
+}
+```
+
 Nacteni tovarny
 ```php
 /** @var \NAttreid\Gallery\IGalleryFactory @inject */
