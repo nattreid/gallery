@@ -9,7 +9,7 @@ use NAttreid\Gallery\Plupload\IUploadQueueFactory,
     Nette\Application\UI\Control,
     Nette\Caching\Cache,
     Nette\Caching\IStorage,
-    Nette\Utils\Strings;
+    Nette\Utils\Random;
 
 /**
  * Render component and handle uploads.
@@ -60,7 +60,7 @@ class PluploadControl extends Control {
         $this->cacheStorage = $cacheStorage;
 
         $this->templateFile = __DIR__ . '/../templates/control/plupload.latte';
-        $this->id = Strings::random();
+        $this->id = Random::generate();
     }
 
     /**
