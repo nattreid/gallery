@@ -88,7 +88,7 @@ $(document).ready(function () {
         return;
     }
 
-    $.cachedScript('/js/plupload/' + window.moment.locale() + 'js');
+    $.cachedScript('/js/plupload/' + window.moment.locale() + '.js');
 
     Gallery.sortable();
 
