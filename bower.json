@@ -18,5 +18,21 @@
         "plupload": "~2.1",
         "moment": "~2.13",
         "jsUtils": "git@git.newtravel.cz:nattreid/jsutils.git#latest"
+    },
+    "sources": {
+        "jquery": "bower_components/jquery/dist/jquery.min.js",
+        "font-awesome": [
+            "bower_components/font-awesome/less/*",
+            "bower_components/font-awesome/fonts/*"
+        ],
+        "plupload": [
+            "bower_components/plupload/js/moxie.min.js",
+            "bower_components/plupload/js/plupload.min.js",
+            "bower_components/plupload/js/jquery.ui.plupload/jquery.ui.plupload.min.js",
+            "bower_components/plupload/js/jquery.ui.plupload/img/*",
+            "bower_components/plupload/js/jquery.ui.plupload/css/jquery.ui.plupload.css"
+        ],
+        "moment": "bower_components/moment/min/moment-with-locales.min.js",
+        "jsUtils": "bower_components/jsUtils/utils.min.js"
     }
 }
