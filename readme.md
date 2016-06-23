@@ -2,7 +2,7 @@
 Nastavení v **config.neon**
 ```neon
 extensions:
-    - NAttreid\Gallery\GalleryExtension
+    - NAttreid\Gallery\DI\Extension
     - NAttreid\Gallery\Plupload\PluploadExtension
 
 gallery:

@@ -1,13 +1,13 @@
 <?php
 
-namespace NAttreid\Gallery;
+namespace NAttreid\Gallery\DI;
 
 /**
  * Nastaveni Gallery
  * 
  * @author Attreid <attreid@gmail.com>
  */
-class GalleryExtension extends \Nette\DI\CompilerExtension {
+class Extension extends \Nette\DI\CompilerExtension {
 
     private $default = [
         'maxImageSize' => 5,
