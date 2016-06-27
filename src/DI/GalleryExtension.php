@@ -7,15 +7,15 @@ namespace NAttreid\Gallery\DI;
  * 
  * @author Attreid <attreid@gmail.com>
  */
-class Extension extends \Nette\DI\CompilerExtension {
+class GalleryExtension extends \Nette\DI\CompilerExtension {
 
-    private $default = [
+    private $defaults = [
         'maxImageSize' => 5,
         'maxImagesSize' => 20
     ];
 
     public function loadConfiguration() {
-        $config = $this->getConfig($this->default);
+        $config = $this->validateConfig($this->defaults, $this->getConfig());
 
         $builder = $this->getContainerBuilder();
 
@@ -24,6 +24,9 @@ class Extension extends \Nette\DI\CompilerExtension {
                 ->setFactory('NAttreid\Gallery\Gallery')
                 ->setArguments([$config['maxImageSize'], $config['maxImagesSize']])
                 ->setAutowired(TRUE);
+
+        $plupload = $this->loadFromFile(__DIR__ . '/plupload.neon');
+        $this->compiler->parseServices($builder, $plupload, 'Plupload.DI');
     }
 
 }
