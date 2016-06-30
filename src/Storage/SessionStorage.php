@@ -85,15 +85,15 @@ class SessionStorage implements \NAttreid\Gallery\IStorage {
     }
 
     public function update($key, $image) {
-        $this->storage->gallery[$key] = $image;
+        $this->session->gallery[$key] = $image;
     }
 
     public function updatePosition($data) {
         $gallery = [];
         foreach ($data as $value) {
-            $gallery[$value] = $this->storage->gallery[$value];
+            $gallery[$value] = $this->session->gallery[$value];
         }
-        $this->storage->gallery = $gallery;
+        $this->session->gallery = $gallery;
     }
 
 }
