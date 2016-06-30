@@ -96,7 +96,11 @@ class NetteDatabaseStorage implements \NAttreid\Gallery\IStorage {
                 ->order($this->position . ' DESC')
                 ->limit(1)
                 ->fetch();
-        return new Image($row[$this->key], $row[$this->image]);
+        if ($row) {
+            return new Image($row[$this->key], $row[$this->image]);
+        } else {
+            return FALSE;
+        }
     }
 
     public function getNext($key) {
@@ -110,7 +114,11 @@ class NetteDatabaseStorage implements \NAttreid\Gallery\IStorage {
                 ->order($this->position . ' DESC')
                 ->limit(1)
                 ->fetch();
-        return new Image($row[$this->key], $row[$this->image]);
+        if ($row) {
+            return new Image($row[$this->key], $row[$this->image]);
+        } else {
+            return FALSE;
+        }
     }
 
     public function update($key, $image) {
@@ -121,7 +129,7 @@ class NetteDatabaseStorage implements \NAttreid\Gallery\IStorage {
 
     public function updatePosition($data) {
         foreach ($data as $key => $value) {
-            $this->getModel()->where($this->key, $key)->update([
+            $this->getModel()->where($this->key, $value)->update([
                 $this->position => $key + 1
             ]);
         }
