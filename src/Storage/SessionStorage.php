@@ -69,7 +69,11 @@ class SessionStorage implements \NAttreid\Gallery\IStorage {
             }
         }
         prev($this->session->gallery);
-        return new Image(key($this->session->gallery), current($this->session->gallery));
+        $image = current($this->session->gallery);
+        if ($image) {
+            return new Image(key($this->session->gallery), $image);
+        }
+        return FALSE;
     }
 
     public function getNext($key) {
@@ -81,7 +85,11 @@ class SessionStorage implements \NAttreid\Gallery\IStorage {
             }
         }
         next($this->session->gallery);
-        return new Image(key($this->session->gallery), current($this->session->gallery));
+        $image = current($this->session->gallery);
+        if ($image) {
+            return new Image(key($this->session->gallery), $image);
+        }
+        return FALSE;
     }
 
     public function update($key, $image) {
