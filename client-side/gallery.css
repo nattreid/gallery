@@ -1,4 +1,7 @@
 /* ************************* gallery.less *********************************** */
+.componentGallery .uploader {
+  width: 99%;
+}
 .componentGallery .gallery {
   padding-top: 20px;
 }

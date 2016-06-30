@@ -7,7 +7,10 @@ use Nette\Application\UI\Control,
     NAttreid\Gallery\Plupload\IPluploadControlFactory,
     Nette\Database\Table\Selection,
     WebChemistry\Images\AbstractStorage,
-    Nette\Utils\Image;
+    Nette\Utils\Image,
+    Nette\Http\SessionSection,
+    NAttreid\Gallery\Storage\NetteDatabaseStorage,
+    NAttreid\Gallery\Storage\SessionStorage;
 
 /**
  * Galerie
@@ -22,8 +25,8 @@ class Gallery extends Control {
     /** @var AbstractStorage */
     private $imageStorage;
 
-    /** @var Model */
-    private $model;
+    /** @var IStorage */
+    private $storage;
 
     /** @var string */
     private $namespace;
@@ -41,29 +44,38 @@ class Gallery extends Control {
         $this->imageStorage = $imageStorage;
     }
 
-    private function getModel() {
-        if ($this->model === NULL) {
-            $session = $this->presenter->getSession('gallery/temp');
-            $session->setExpiration('1 hour');
-            $this->model = new Model($session);
+    /**
+     * Vrati uloziste
+     * @return IStorage
+     * @throws \Nette\InvalidArgumentException
+     */
+    private function getStorage() {
+        if ($this->storage === NULL) {
+            throw new \Nette\InvalidArgumentException('Neni nastaveno uloziste setStorage');
         }
-        return $this->model;
+        return $this->storage;
     }
 
     /**
      * Nastavi uloziste
-     * @param $storage Selection | \Nette\Http\Session | \Nette\Http\SessionSection $model
+     * @param Selection|SessionSection $storage
+     * @param string $column
+     * @param string $key
      */
-    public function setModel($storage) {
-        $this->model = new Model($storage);
+    public function setStorage($storage, $image = 'image', $position = 'position', $key = 'id') {
+        if ($storage instanceof Selection) {
+            $this->storage = new NetteDatabaseStorage($storage, $image, $position, $key);
+        } elseif ($storage instanceof SessionSection) {
+            $this->storage = new SessionStorage($storage);
+        }
     }
 
     /**
-     * Vrati obrazky a pokud je model Session tak ji vymaze
-     * @return Selection|array
+     * Vrati obrazky
+     * @return Image[]
      */
     public function getImages() {
-        return $this->getModel()->fetchAll(TRUE);
+        return $this->getStorage()->fetchAll();
     }
 
     /**
@@ -79,7 +91,7 @@ class Gallery extends Control {
      */
     public function handleDeleteAllImages() {
         if ($this->presenter->isAjax()) {
-            $result = $this->getModel()->delete();
+            $result = $this->getStorage()->delete();
             foreach ($result as $row) {
                 $this->imageStorage->delete($row);
             }
@@ -98,7 +110,7 @@ class Gallery extends Control {
         if ($this->presenter->isAjax()) {
             $data = \Nette\Utils\Json::decode($json);
 
-            $result = $this->getModel()->delete($data);
+            $result = $this->getStorage()->delete($data);
             foreach ($result as $row) {
                 $this->imageStorage->delete($row);
             }
@@ -115,7 +127,7 @@ class Gallery extends Control {
      */
     public function handleDeleteImage($id) {
         if ($this->presenter->isAjax()) {
-            $result = $this->getModel()->delete($id);
+            $result = $this->getStorage()->delete($id);
             $this->imageStorage->delete($result);
 
             $this->redrawControl('gallery');
@@ -130,7 +142,7 @@ class Gallery extends Control {
      */
     public function handleShowViewer($id) {
         if ($this->presenter->isAjax()) {
-            $this->template->viewImage = $this->getModel()->get($id);
+            $this->template->viewImage = $this->getStorage()->get($id);
 
             $this->redrawControl('viewer');
         } else {
@@ -144,7 +156,7 @@ class Gallery extends Control {
      */
     public function handleNextImage($id) {
         if ($this->presenter->isAjax()) {
-            $row = $this->getModel()->getNext($id);
+            $row = $this->getStorage()->getNext($id);
             if ($row) {
                 $this->template->viewImage = $row;
                 $this->redrawControl('image');
@@ -162,7 +174,7 @@ class Gallery extends Control {
      */
     public function handlePreviousImage($id) {
         if ($this->presenter->isAjax()) {
-            $row = $this->getModel()->getPrevious($id);
+            $row = $this->getStorage()->getPrevious($id);
             if ($row) {
                 $this->template->viewImage = $row;
                 $this->redrawControl('image');
@@ -181,7 +193,7 @@ class Gallery extends Control {
     public function handleUpdatePosition($json) {
         if ($this->presenter->isAjax()) {
             $data = \Nette\Utils\Json::decode($json);
-            $this->getModel()->updatePosition($data);
+            $this->getStorage()->updatePosition($data);
         }
         $this->presenter->terminate();
     }
@@ -207,12 +219,12 @@ class Gallery extends Control {
      */
     public function changeNamespace($namespace) {
         $this->setNamespace($namespace);
-        $result = $this->getModel()->fetchAll();
+        $result = $this->getStorage()->fetchAll();
         foreach ($result as $row) {
-            $image = $this->imageStorage->get($row->{$this->model->image});
+            $image = $this->imageStorage->get($row->image);
             $name = $this->imageStorage->saveImage(Image::fromFile($image->getAbsolutePath()), $image->getName(), $this->namespace);
-            $this->getModel()->update($row->{$this->model->id}, $name);
-            $this->imageStorage->delete($row->{$this->model->image});
+            $this->getStorage()->update($row->key, $name);
+            $this->imageStorage->delete($row->image);
         }
     }
 
@@ -226,7 +238,7 @@ class Gallery extends Control {
             foreach ($uploads as $upload) {
                 $image = $this->imageStorage->saveImage(Image::fromFile($upload->getFilename()), $upload->getName(), $this->namespace);
                 unlink($upload->getFilename());
-                $this->getModel()->add($image);
+                $this->getStorage()->add($image);
             }
         }
         $this->presenter->terminate();
@@ -250,16 +262,23 @@ class Gallery extends Control {
      * @param string $value
      */
     public function setForeignKey($key, $value) {
-        if ($this->model === NULL) {
-            throw new \Nette\InvalidArgumentException('Model neni nastaven');
+        if ($this->storage instanceof Storage\NetteDatabaseStorage) {
+            $this->storage->setForeignKey($key, $value);
+        } else {
+            throw new \Nette\InvalidArgumentException('Uloziste musi byt database');
         }
-        $this->model->setForeignKey($key, $value);
+    }
+
+    public function clearTemp() {
+        if ($this->storage instanceof Storage\SessionStorage) {
+            $this->storage->clearTemp();
+        } else {
+            throw new \Nette\InvalidArgumentException('Uloziste musi byt session');
+        }
     }
 
     public function render() {
-        $model = $this->getModel();
-        $this->template->images = $model->fetchAll();
-        $this->template->model = $model;
+        $this->template->images = $this->getStorage()->fetchAll();
 
         $this->template->componentId = $this->getUniqueId();
         $this->template->imageStorage = $this->imageStorage;

@@ -8,9 +8,9 @@
                 <div class="background"></div>
                 <div class="viewer-container" n:snippet="image">
                     <a class="fa fa-remove viewerClose"></a>
-                    <a class="fa fa-chevron-left ajax" data-ajax-off="history" n:href="previousImage! $viewImage->{$model->id}"></a>
-                    <a class="fa fa-chevron-right ajax" data-ajax-off="history" n:href="nextImage! $viewImage->{$model->id}"></a>
-                    <img n:img="$viewImage->{$model->image}, '800x600'">
+                    <a class="fa fa-chevron-left ajax" data-ajax-off="history" n:href="previousImage! $viewImage->key"></a>
+                    <a class="fa fa-chevron-right ajax" data-ajax-off="history" n:href="nextImage! $viewImage->key"></a>
+                    <img n:img="$viewImage->image, '800x600'">
                     <script type="text/javascript">
                         window.Gallery.redrawViewer();
                     </script>
@@ -24,13 +24,13 @@
             <li n:foreach="$images as $image">
                 <div class="thumb">
                     <img 
-                        n:img="$image->{$model->image}, '132x88'" 
-                        data-id="{$image->{$model->id}}">
+                        n:img="$image->image, '132x88'" 
+                        data-id="{$image->id}">
                 </div>
                 <div class="buttons">
-                    <a class="ajax fa fa-search" data-ajax-off="history" n:href="showViewer! $image->{$model->id}" title="{_'default.gallery.show'}"></a>
-                    <input type="checkbox" data-id="{$image->{$model->id}}"/> 
-                    <a class="ajax fa fa-trash" data-ajax-off="history" n:href="deleteImage! $image->{$model->id}" title="{_'default.gallery.deleteImage', 1}"></a>
+                    <a class="ajax fa fa-search" data-ajax-off="history" n:href="showViewer! $image->id" title="{_'default.gallery.show'}"></a>
+                    <input type="checkbox" data-id="{$image->id}"/> 
+                    <a class="ajax fa fa-trash" data-ajax-off="history" n:href="deleteImage! $image->id" title="{_'default.gallery.deleteImage', 1}"></a>
                 </div>
             </li>
         </ul>

@@ -23,7 +23,7 @@ class Model {
     /** @var Selection|Session|SessionSection */
     private $storage;
 
-    public function __construct($storage = NULL) {
+    public function __construct($storage, $image, $position, $key) {
         $this->setStorage($storage);
     }
 
@@ -71,7 +71,7 @@ class Model {
     /**
      * Smaze obrazek
      * @param int $keys
-     * @return string|array
+     * @return string|array seznam smazanych polozek
      * @throws \Nette\InvalidStateException
      */
     public function delete($keys = NULL) {
