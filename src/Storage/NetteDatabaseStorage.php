@@ -62,7 +62,7 @@ class NetteDatabaseStorage implements \NAttreid\Gallery\IStorage {
         } elseif (!empty($this->foreignKey)) {
             $model->where($this->foreignKey[0], $this->foreignKey[1]);
         }
-        $result = $model->fetchPairs($this->id, $this->image);
+        $result = $model->fetchPairs($this->key, $this->image);
         $model->delete();
         return $result;
     }

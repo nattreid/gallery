@@ -25,12 +25,12 @@
                 <div class="thumb">
                     <img 
                         n:img="$image->image, '132x88'" 
-                        data-id="{$image->id}">
+                        data-id="{$image->key}">
                 </div>
                 <div class="buttons">
-                    <a class="ajax fa fa-search" data-ajax-off="history" n:href="showViewer! $image->id" title="{_'default.gallery.show'}"></a>
-                    <input type="checkbox" data-id="{$image->id}"/> 
-                    <a class="ajax fa fa-trash" data-ajax-off="history" n:href="deleteImage! $image->id" title="{_'default.gallery.deleteImage', 1}"></a>
+                    <a class="ajax fa fa-search" data-ajax-off="history" n:href="showViewer! $image->key" title="{_'default.gallery.show'}"></a>
+                    <input type="checkbox" data-id="{$image->key}"/> 
+                    <a class="ajax fa fa-trash" data-ajax-off="history" n:href="deleteImage! $image->key" title="{_'default.gallery.deleteImage', 1}"></a>
                 </div>
             </li>
         </ul>
