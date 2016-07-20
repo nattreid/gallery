@@ -2,6 +2,9 @@
 
 namespace NAttreid\Gallery\DI;
 
+use NAttreid\Gallery\IGalleryFactory,
+    NAttreid\Gallery\Gallery;
+
 /**
  * Nastaveni Gallery
  * 
@@ -20,8 +23,8 @@ class GalleryExtension extends \Nette\DI\CompilerExtension {
         $builder = $this->getContainerBuilder();
 
         $builder->addDefinition($this->prefix('gallery'))
-                ->setImplement('NAttreid\Gallery\IGalleryFactory')
-                ->setFactory('NAttreid\Gallery\Gallery')
+                ->setImplement(IGalleryFactory::class)
+                ->setFactory(Gallery::class)
                 ->setArguments([$config['maxImageSize'], $config['maxImagesSize']])
                 ->setAutowired(TRUE);
 
