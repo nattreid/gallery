@@ -20,7 +20,6 @@
         "nette/tester": "~1.6",
         "nette/database": "~2.3"
     },
-    "minimum-stability": "stable",
     "autoload": {
         "classmap": ["src/"]
     }
