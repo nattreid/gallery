@@ -28,15 +28,15 @@
                         data-id="{$image->key}">
                 </div>
                 <div class="buttons">
-                    <a class="ajax fa fa-search" data-ajax-off="history" n:href="showViewer! $image->key" title="{_'default.gallery.show'}"></a>
+                    <a class="ajax fa fa-search" data-ajax-off="history" n:href="showViewer! $image->key" title="{_'gallery.show'}"></a>
                     <input type="checkbox" data-id="{$image->key}"/> 
-                    <a class="ajax fa fa-trash" data-ajax-off="history" n:href="deleteImage! $image->key" title="{_'default.gallery.deleteImage', 1}"></a>
+                    <a class="ajax fa fa-trash" data-ajax-off="history" n:href="deleteImage! $image->key" title="{_'gallery.deleteImage'}"></a>
                 </div>
             </li>
         </ul>
         <div class="buttons">
-            <a class="button deleteChoosedImage" data-url="{link deleteImages! 'jsonArgument'}">{_'default.gallery.deleteImage', 2}</a>
-            <a class="button ajax" data-ajax-off="history" n:href="deleteAllImages!">{_'default.gallery.deleteAllImages'}</a>
+            <a class="button deleteChoosedImage" data-url="{link deleteImages! 'jsonArgument'}">{_'gallery.deleteImages'}</a>
+            <a class="button ajax" data-ajax-off="history" n:href="deleteAllImages!">{_'gallery.deleteAllImages'}</a>
         </div>
     </div>
     {if $presenter->isAjax()}

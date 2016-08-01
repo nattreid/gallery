@@ -10,7 +10,8 @@ use Nette\Application\UI\Control,
     Nette\Utils\Image,
     Nette\Http\SessionSection,
     NAttreid\Gallery\Storage\NetteDatabaseStorage,
-    NAttreid\Gallery\Storage\SessionStorage;
+    NAttreid\Gallery\Storage\SessionStorage,
+    Nette\Localization\ITranslator;
 
 /**
  * Galerie
@@ -37,11 +38,31 @@ class Gallery extends Control {
     /** @var int */
     private $maxImageSize;
 
+    /** @var ITranslator */
+    private $translator;
+
     public function __construct($maxImagesSize, $maxImageSize, IPluploadControlFactory $plupload, AbstractStorage $imageStorage) {
         $this->maxImagesSize = $maxImagesSize;
         $this->maxImageSize = $maxImageSize;
         $this->plupload = $plupload;
         $this->imageStorage = $imageStorage;
+        $this->translator = new Lang\Translator;
+    }
+
+    /**
+     * Nastavi translator
+     * @param ITranslator $translator
+     */
+    public function setTranslator(ITranslator $translator) {
+        $this->translator = $translator;
+    }
+
+    /**
+     * Vrati Translator
+     * @return Lang\Translator
+     */
+    public function getTranslator() {
+        return $this->translator;
     }
 
     /**
@@ -278,6 +299,8 @@ class Gallery extends Control {
     }
 
     public function render() {
+        $this->template->addFilter('translate', [$this->translator, 'translate']);
+
         $this->template->images = $this->getStorage()->fetchAll();
 
         $this->template->componentId = $this->getUniqueId();
