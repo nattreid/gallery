@@ -1,26 +1,28 @@
 {
-    "name": "gallery",
-    "description": "Gallery for Nette Framework",
-    "license": ["Unlicense"],
-    "authors": [
-        {
-            "name": "Attreid",
-            "email": "attreid@gmail.com"
-        }
-    ],
-    "main": [
-        "./assets/gallery.less",
-        "./assets/gallery.js"
-    ],
-    "ignore": [
-        "/src",
-        "/composer.json"
-    ],
-    "dependencies": {
-        "jquery": "~1.12",
-        "font-awesome": "~4.6",
-        "plupload": "~2.1",
-        "moment": "~2.13",
-        "utils": "git@git.newtravel.cz:nattreid/utils.git#~1.0"
+  "name": "gallery",
+  "description": "Gallery for Nette Framework",
+  "license": [
+    "Unlicense"
+  ],
+  "authors": [
+    {
+      "name": "Attreid",
+      "email": "attreid@gmail.com"
     }
+  ],
+  "main": [
+    "./assets/gallery.less",
+    "./assets/gallery.js"
+  ],
+  "ignore": [
+    "/src",
+    "/composer.json"
+  ],
+  "dependencies": {
+    "jquery": "~1.12",
+    "font-awesome": "~4.6",
+    "plupload": "~2.1",
+    "moment": "~2.13",
+    "utils": "git@git.newtravel.cz:nattreid/utils.git#~1.0"
+  }
 }

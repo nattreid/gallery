@@ -4,33 +4,37 @@ namespace NAttreid\Gallery\Storage;
 
 /**
  * Image
- * 
+ *
  * @property-read int $key
  * @property-read string $image
  *
  * @author Attreid <attreid@gmail.com>
  */
-class Image {
+class Image
+{
 
-    use \Nette\SmartObject;
+	use \Nette\SmartObject;
 
-    /** @var int */
-    private $key;
+	/** @var int */
+	private $key;
 
-    /** @var string */
-    private $image;
+	/** @var string */
+	private $image;
 
-    public function __construct($key, $image) {
-        $this->key = $key;
-        $this->image = $image;
-    }
+	public function __construct($key, $image)
+	{
+		$this->key = $key;
+		$this->image = $image;
+	}
 
-    public function getKey() {
-        return $this->key;
-    }
+	public function getKey()
+	{
+		return $this->key;
+	}
 
-    public function getImage() {
-        return $this->image;
-    }
+	public function getImage()
+	{
+		return $this->image;
+	}
 
 }

@@ -2,13 +2,14 @@
     <div class="uploader">
         {control plupload}
     </div>
-    <div class="gallery" >
+    <div class="gallery">
         {snippet viewer}
             <div class="viewer" n:ifset="$viewImage">
                 <div class="background"></div>
                 <div class="viewer-container" n:snippet="image">
                     <a class="fa fa-remove viewerClose"></a>
-                    <a class="fa fa-chevron-left ajax" data-ajax-off="history" n:href="previousImage! $viewImage->key"></a>
+                    <a class="fa fa-chevron-left ajax"
+                       data-ajax-off="history" n:href="previousImage! $viewImage->key"></a>
                     <a class="fa fa-chevron-right ajax" data-ajax-off="history" n:href="nextImage! $viewImage->key"></a>
                     <img n:img="$viewImage->image, '800x600'">
                     <script type="text/javascript">
@@ -23,19 +24,22 @@
         <ul data-url="{link updatePosition! 'jsonArgument'}">
             <li n:foreach="$images as $image">
                 <div class="thumb">
-                    <img 
-                        n:img="$image->image, '132x88'" 
-                        data-id="{$image->key}">
+                    <img
+                            n:img="$image->image, '132x88'"
+                            data-id="{$image->key}">
                 </div>
                 <div class="buttons">
-                    <a class="ajax fa fa-search" data-ajax-off="history" n:href="showViewer! $image->key" title="{_'gallery.show'}"></a>
-                    <input type="checkbox" data-id="{$image->key}"/> 
-                    <a class="ajax fa fa-trash" data-ajax-off="history" n:href="deleteImage! $image->key" title="{_'gallery.deleteImage'}"></a>
+                    <a class="ajax fa fa-search" data-ajax-off="history" n:href="showViewer! $image->key"
+                       title="{_'gallery.show'}"></a>
+                    <input type="checkbox" data-id="{$image->key}"/>
+                    <a class="ajax fa fa-trash" data-ajax-off="history" n:href="deleteImage! $image->key"
+                       title="{_'gallery.deleteImage'}"></a>
                 </div>
             </li>
         </ul>
         <div class="buttons">
-            <a class="button deleteChoosedImage" data-url="{link deleteImages! 'jsonArgument'}">{_'gallery.deleteImages'}</a>
+            <a class="button deleteChoosedImage"
+               data-url="{link deleteImages! 'jsonArgument'}">{_'gallery.deleteImages'}</a>
             <a class="button ajax" data-ajax-off="history" n:href="deleteAllImages!">{_'gallery.deleteAllImages'}</a>
         </div>
     </div>
