@@ -34,7 +34,7 @@
                     var json = jQuery.parseJSON(info.response);
                     $.nette.success(json);
                 },
-                UploadComplete: function (up, files) {
+                UploadComplete: function () {
                     $.get({link UploadComplete!, id => $id}, function (json) {
                         $.nette.success(json);
                     });

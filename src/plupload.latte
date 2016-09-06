@@ -32,7 +32,7 @@
             headers: {'X-Requested-With': 'XMLHttpRequest'},
 
             init: {
-                UploadComplete: function (up, files) {
+                UploadComplete: function () {
                     $.nette.ajax({link UploadComplete!, id => $id});
                 }
             }

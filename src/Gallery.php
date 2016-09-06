@@ -45,6 +45,7 @@ class Gallery extends Control
 
 	public function __construct($maxImagesSize, $maxImageSize, IPluploadControlFactory $plupload, AbstractStorage $imageStorage)
 	{
+		parent::__construct();
 		$this->maxImagesSize = $maxImagesSize;
 		$this->maxImageSize = $maxImageSize;
 		$this->plupload = $plupload;
@@ -86,8 +87,10 @@ class Gallery extends Control
 	/**
 	 * Nastavi uloziste
 	 * @param Selection|SessionSection $storage
-	 * @param string $column
+	 * @param string $image
+	 * @param string $position
 	 * @param string $key
+	 * @internal param string $column
 	 */
 	public function setStorage($storage, $image = 'image', $position = 'position', $key = 'id')
 	{
@@ -99,8 +102,7 @@ class Gallery extends Control
 	}
 
 	/**
-	 * Vrati obrazky
-	 * @return Image[]
+	 * @return Storage\Image[]
 	 */
 	public function getImages()
 	{
@@ -244,8 +246,8 @@ class Gallery extends Control
 		$plupload = $this->plupload->create();
 		$plupload->maxFileSize = $this->maxImagesSize . 'mb';
 		$plupload->maxChunkSize = $this->maxImageSize . 'mb';
-		$plupload->onFileUploaded[] = $this->onUpload;
-		$plupload->onUploadComplete[] = $this->onCompleted;
+		$plupload->onFileUploaded[] = [$this, 'onUpload'];
+		$plupload->onUploadComplete[] = [$this, 'onCompleted'];
 
 		$plupload->templateFile = __DIR__ . '/plupload.latte';
 		return $plupload;
