@@ -22,7 +22,6 @@
     "jquery": "~1.12",
     "font-awesome": "~4.6",
     "plupload": "~2.1",
-    "moment": "~2.13",
     "utils": "git@git.newtravel.cz:nattreid/utils.git#~1.0"
   }
 }

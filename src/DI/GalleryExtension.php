@@ -2,6 +2,7 @@
 
 namespace NAttreid\Gallery\DI;
 
+use NAttreid\Crm\LoaderFactory;
 use NAttreid\Gallery\Gallery;
 use NAttreid\Gallery\IGalleryFactory;
 use NAttreid\Gallery\Plupload\IPluploadControlFactory;
@@ -59,4 +60,18 @@ class GalleryExtension extends \Nette\DI\CompilerExtension
 			->setParameters(['filename', 'name']);
 	}
 
+	public function beforeCompile()
+	{
+		$path = __DIR__ . '/../../assets/';
+		$builder = $this->getContainerBuilder();
+		$loader = $builder->getByType(LoaderFactory::class);
+		try {
+			$builder->getDefinition($loader)
+				->addSetup('addFile', [$path . 'css/gallery.boundled.min.css'])
+				->addSetup('addFile', [$path . 'js/gallery.boundled.min.js'])
+				->addSetup('addFile', [$path . 'js/i18n/gallery.cs.min.js', 'cs']);
+		} catch (\Nette\DI\MissingServiceException $ex) {
+
+		}
+	}
 }

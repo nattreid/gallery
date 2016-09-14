@@ -2,15 +2,10 @@
     if (window.jQuery === undefined) {
         console.error('Plugin "jQuery" required by "gallery.js" is missing!');
         return;
-    } else if (window.moment === undefined) {
-        console.error('Plugin "moment.js" required by "gallery.js" is missing!');
-        return;
     } else if (window.plupload === undefined) {
         console.error('Plugin "plupload.js" required by "gallery.js" is missing!');
         return;
     }
-
-    $.cachedScript('/js/plupload/' + window.moment.locale() + '.js');
 
     window.Gallery = {};
 
