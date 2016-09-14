@@ -2,21 +2,11 @@
 Nastavení v **config.neon**
 ```neon
 extensions:
-    - NAttreid\Gallery\DI\GalleryExtension
+    gallery: NAttreid\Gallery\DI\GalleryExtension
 
 gallery:
     maxImageSize: 2 #MB
     maxImagesSize: 50 # MB
-```
-
-Pokud používáte bower, upravte css
-```css
-.plupload_logo {
-    background-image: url('/images/plupload/plupload.png');
-}
-.plupload_thumb_loading {
-    background-image: url('/images/plupload/loading.gif');
-}
 ```
 
 ### Načtení továrny

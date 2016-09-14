@@ -15,7 +15,8 @@ var paths = {
     'production': {
         'js': './assets/js',
         'css': './assets/css',
-        'lang': './assets/js/i18n'
+        'lang': './assets/js/i18n',
+        'images': './assets/images/gallery/'
     }
 };
 
@@ -119,6 +120,11 @@ gulp.task('cssBoundledMin', function () {
 
 // *****************************************************************************
 
+gulp.task('images', function () {
+    return gulp.src(paths.dev.vendor + 'plupload/js/jquery.ui.plupload/img/**.*')
+        .pipe(gulp.dest(paths.production.images));
+});
+
 gulp.task('watch', function () {
     gulp.watch(paths.dev.js + '*.js', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsCs', 'jsCsMin']);
     gulp.watch(paths.dev.vendor + '*.js', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsCs', 'jsCsMin']);
@@ -127,4 +133,4 @@ gulp.task('watch', function () {
     gulp.watch(paths.dev.vendor + '*.css', ['css', 'cssBoundled', 'cssMin', 'cssBoundledMin']);
 });
 
-gulp.task('default', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsCs', 'jsCsMin', 'css', 'cssBoundled', 'cssMin', 'cssBoundledMin', 'watch']);
+gulp.task('default', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsCs', 'jsCsMin', 'css', 'cssBoundled', 'cssMin', 'cssBoundledMin', 'images', 'watch']);
