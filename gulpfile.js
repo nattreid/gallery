@@ -16,7 +16,7 @@ var paths = {
         'js': './assets/js',
         'css': './assets/css',
         'lang': './assets/js/i18n',
-        'images': './assets/images/gallery/'
+        'images': './assets/images/'
     }
 };
 
