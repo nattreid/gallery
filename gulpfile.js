@@ -58,8 +58,8 @@ gulp.task('jsBoundledMin', function () {
 // ***********************************  CSS  ***********************************
 
 var boundledCSS = [
-    paths.dev.vendor + 'dropzone/dist/dropzone.basic.css',
-    paths.dev.vendor + 'dropzone/dist/dropzone.dropzone.css',
+    paths.dev.vendor + 'dropzone/dist/basic.css',
+    paths.dev.vendor + 'dropzone/dist/dropzone.css',
 ];
 
 gulp.task('css', function () {

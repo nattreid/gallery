@@ -2,11 +2,10 @@
     if (window.jQuery === undefined) {
         console.error('Plugin "jQuery" required by "gallery.js" is missing!');
         return;
+    } else if (window.Dropzone === undefined) {
+        console.error('Plugin "Dropzone.js" required by "gallery.js" is missing!');
+        return;
     }
-    // else if (window.plupload === undefined) {
-    //     console.error('Plugin "plupload.js" required by "gallery.js" is missing!');
-    //     return;
-    // }
 
     window.Gallery = {};
 

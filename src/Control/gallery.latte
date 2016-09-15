@@ -51,9 +51,9 @@
             </li>
         </ul>
         <div class="buttons">
-            <a class="button deleteChoosedImage"
+            <a class="btn btn-danger deleteChoosedImage"
                data-url="{link deleteImages! 'jsonArgument'}">{_'gallery.deleteImages'}</a>
-            <a class="button ajax" data-ajax-off="history" n:href="deleteAllImages!">{_'gallery.deleteAllImages'}</a>
+            <a class="btn btn-danger ajax" data-ajax-off="history" n:href="deleteAllImages!">{_'gallery.deleteAllImages'}</a>
         </div>
     </div>
     {if $presenter->isAjax()}
