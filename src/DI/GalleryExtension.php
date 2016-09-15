@@ -4,13 +4,6 @@ namespace NAttreid\Gallery\DI;
 
 use NAttreid\Gallery\Gallery;
 use NAttreid\Gallery\IGalleryFactory;
-use NAttreid\Gallery\Plupload\IPluploadControlFactory;
-use NAttreid\Gallery\Plupload\IUploadFactory;
-use NAttreid\Gallery\Plupload\IUploadQueueFactory;
-use NAttreid\Gallery\Plupload\PluploadControl;
-use NAttreid\Gallery\Plupload\Upload;
-use NAttreid\Gallery\Plupload\Uploader;
-use NAttreid\Gallery\Plupload\UploadQueue;
 
 /**
  * Nastaveni Gallery
@@ -38,20 +31,18 @@ class GalleryExtension extends \Nette\DI\CompilerExtension
 			->setImplement(IGalleryFactory::class)
 			->setArguments([$config['maxImageSize'], $config['maxImagesSize']]);
 	}
-	/*
-		public function beforeCompile()
-		{
-			$path = __DIR__ . '/../../assets/';
-			$builder = $this->getContainerBuilder();
-			$loader = $builder->getByType(LoaderFactory::class);
-			try {
-				$builder->getDefinition($loader)
-					->addSetup('addFile', [$path . 'css/gallery.boundled.min.css'])
-					->addSetup('addFile', [$path . 'js/gallery.boundled.min.js'])
-					->addSetup('addFile', [$path . 'js/i18n/gallery.cs.min.js', 'cs']);
-			} catch (\Nette\DI\MissingServiceException $ex) {
 
-			}
+	public function beforeCompile()
+	{
+		$path = __DIR__ . '/../../assets/';
+		$builder = $this->getContainerBuilder();
+		$loader = $builder->getByType(LoaderFactory::class);
+		try {
+			$builder->getDefinition($loader)
+				->addSetup('addFile', [$path . 'css/gallery.boundled.min.css'])
+				->addSetup('addFile', [$path . 'js/gallery.boundled.min.js']);
+		} catch (\Nette\DI\MissingServiceException $ex) {
+
 		}
-	*/
+	}
 }
