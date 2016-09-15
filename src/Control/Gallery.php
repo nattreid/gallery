@@ -7,11 +7,13 @@ use NAttreid\Gallery\Storage\IStorage;
 use NAttreid\Gallery\Storage\NetteDatabaseStorage;
 use NAttreid\Gallery\Storage\NextrasOrmStorage;
 use NAttreid\Gallery\Storage\SessionStorage;
+use NAttreid\Orm\Repository;
 use Nette\Application\UI\Control;
+use Nette\Database\Table\Selection;
+use Nette\Http\SessionSection;
 use Nette\InvalidArgumentException;
 use Nette\Localization\ITranslator;
 use Nette\Utils\Json;
-use Nextras\Orm\Collection\ICollection;
 use WebChemistry\Images\AbstractStorage;
 
 /**
@@ -82,7 +84,7 @@ class Gallery extends Control
 
 	/**
 	 * Nastavi uloziste
-	 * @param Selection|SessionSection|ICollection $storage
+	 * @param Selection|SessionSection|Repository $storage
 	 * @param string $image
 	 * @param string $position
 	 * @param string $key
@@ -92,7 +94,7 @@ class Gallery extends Control
 	{
 		if ($storage instanceof Selection) {
 			$this->storage = new NetteDatabaseStorage($storage, $image, $position, $key);
-		} elseif ($storage instanceof ICollection) {
+		} elseif ($storage instanceof Repository) {
 			$this->storage = new NextrasOrmStorage($storage, $image, $position, $key);
 		} elseif ($storage instanceof SessionSection) {
 			$this->storage = new SessionStorage($storage);
