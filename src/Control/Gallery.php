@@ -1,17 +1,17 @@
 <?php
 
-namespace NAttreid\Gallery;
+namespace NAttreid\Gallery\Control;
 
-use NAttreid\Gallery\Plupload\IPluploadControlFactory;
-use NAttreid\Gallery\Plupload\PluploadControl;
-use NAttreid\Gallery\Plupload\UploadQueue;
+use NAttreid\Gallery\Lang\Translator;
+use NAttreid\Gallery\Storage\IStorage;
 use NAttreid\Gallery\Storage\NetteDatabaseStorage;
+use NAttreid\Gallery\Storage\NextrasOrmStorage;
 use NAttreid\Gallery\Storage\SessionStorage;
 use Nette\Application\UI\Control;
-use Nette\Database\Table\Selection;
-use Nette\Http\SessionSection;
+use Nette\InvalidArgumentException;
 use Nette\Localization\ITranslator;
-use Nette\Utils\Image;
+use Nette\Utils\Json;
+use Nextras\Orm\Collection\ICollection;
 use WebChemistry\Images\AbstractStorage;
 
 /**
@@ -21,10 +21,6 @@ use WebChemistry\Images\AbstractStorage;
  */
 class Gallery extends Control
 {
-
-	/** @var IPluploadControlFactory */
-	private $plupload;
-
 	/** @var AbstractStorage */
 	private $imageStorage;
 
@@ -43,14 +39,14 @@ class Gallery extends Control
 	/** @var ITranslator */
 	private $translator;
 
-	public function __construct($maxImagesSize, $maxImageSize, IPluploadControlFactory $plupload, AbstractStorage $imageStorage)
+
+	public function __construct($maxImagesSize, $maxImageSize, AbstractStorage $imageStorage)
 	{
 		parent::__construct();
 		$this->maxImagesSize = $maxImagesSize;
 		$this->maxImageSize = $maxImageSize;
-		$this->plupload = $plupload;
 		$this->imageStorage = $imageStorage;
-		$this->translator = new Lang\Translator;
+		$this->translator = new Translator;
 	}
 
 	/**
@@ -64,7 +60,7 @@ class Gallery extends Control
 
 	/**
 	 * Vrati Translator
-	 * @return Lang\Translator
+	 * @return Translator
 	 */
 	public function getTranslator()
 	{
@@ -74,19 +70,19 @@ class Gallery extends Control
 	/**
 	 * Vrati uloziste
 	 * @return IStorage
-	 * @throws \Nette\InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	private function getStorage()
 	{
 		if ($this->storage === NULL) {
-			throw new \Nette\InvalidArgumentException('Neni nastaveno uloziste setStorage');
+			throw new InvalidArgumentException('Storage is not set');
 		}
 		return $this->storage;
 	}
 
 	/**
 	 * Nastavi uloziste
-	 * @param Selection|SessionSection $storage
+	 * @param Selection|SessionSection|ICollection $storage
 	 * @param string $image
 	 * @param string $position
 	 * @param string $key
@@ -96,13 +92,15 @@ class Gallery extends Control
 	{
 		if ($storage instanceof Selection) {
 			$this->storage = new NetteDatabaseStorage($storage, $image, $position, $key);
+		} elseif ($storage instanceof ICollection) {
+			$this->storage = new NextrasOrmStorage($storage, $image, $position, $key);
 		} elseif ($storage instanceof SessionSection) {
 			$this->storage = new SessionStorage($storage);
 		}
 	}
 
 	/**
-	 * @return Storage\Image[]
+	 * @return Image[]
 	 */
 	public function getImages()
 	{
@@ -142,7 +140,7 @@ class Gallery extends Control
 	public function handleDeleteImages($json)
 	{
 		if ($this->presenter->isAjax()) {
-			$data = \Nette\Utils\Json::decode($json);
+			$data = Json::decode($json);
 
 			$result = $this->getStorage()->delete($data);
 			foreach ($result as $row) {
@@ -231,26 +229,10 @@ class Gallery extends Control
 	public function handleUpdatePosition($json)
 	{
 		if ($this->presenter->isAjax()) {
-			$data = \Nette\Utils\Json::decode($json);
+			$data = Json::decode($json);
 			$this->getStorage()->updatePosition($data);
 		}
 		$this->presenter->terminate();
-	}
-
-	/**
-	 * Vytvori komponentu upload
-	 * @return PluploadControl
-	 */
-	protected function createComponentPlupload()
-	{
-		$plupload = $this->plupload->create();
-		$plupload->maxFileSize = $this->maxImagesSize . 'mb';
-		$plupload->maxChunkSize = $this->maxImageSize . 'mb';
-		$plupload->onFileUploaded[] = [$this, 'onUpload'];
-		$plupload->onUploadComplete[] = [$this, 'onCompleted'];
-
-		$plupload->templateFile = __DIR__ . '/plupload.latte';
-		return $plupload;
 	}
 
 	/**
@@ -270,56 +252,37 @@ class Gallery extends Control
 	}
 
 	/**
-	 * Po nahrani obrazku
-	 * @param UploadQueue $uploadQueue
-	 */
-	public function onUpload(UploadQueue $uploadQueue)
-	{
-		if ($this->presenter->isAjax()) {
-			$uploads = $uploadQueue->getAllUploads();
-			foreach ($uploads as $upload) {
-				$image = $this->imageStorage->saveImage(Image::fromFile($upload->getFilename()), $upload->getName(), $this->namespace);
-				unlink($upload->getFilename());
-				$this->getStorage()->add($image);
-			}
-		}
-		$this->presenter->terminate();
-	}
-
-	/**
-	 * Po skonceni nahravani obrazku
-	 * @param UploadQueue $uploadQueue
-	 */
-	public function onCompleted(UploadQueue $uploadQueue)
-	{
-		if ($this->presenter->isAjax()) {
-			$this->redrawControl('gallery');
-		} else {
-			$this->presenter->terminate();
-		}
-	}
-
-	/**
 	 * Nastavi cizi klic
 	 * @param string $key
 	 * @param string $value
 	 */
 	public function setForeignKey($key, $value)
 	{
-		if ($this->storage instanceof Storage\NetteDatabaseStorage) {
+		if ($this->storage instanceof NetteDatabaseStorage) {
 			$this->storage->setForeignKey($key, $value);
-		} else {
-			throw new \Nette\InvalidArgumentException('Uloziste musi byt database');
+		} elseif ($this->storage instanceof NextrasOrmStorage) {
+			$this->storage->setForeignKey($key, $value);
+		}
+		{
+			throw new InvalidArgumentException('Storage is not database');
 		}
 	}
 
+	/**
+	 * Smaze temp adresar
+	 */
 	public function clearTemp()
 	{
-		if ($this->storage instanceof Storage\SessionStorage) {
+		if ($this->storage instanceof SessionStorage) {
 			$this->storage->clearTemp();
 		} else {
-			throw new \Nette\InvalidArgumentException('Uloziste musi byt session');
+			throw new InvalidArgumentException('Storage is not session');
 		}
+	}
+
+	public function handleUpload()
+	{
+
 	}
 
 	public function render()

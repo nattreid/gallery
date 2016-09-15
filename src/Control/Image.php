@@ -1,6 +1,6 @@
 <?php
 
-namespace NAttreid\Gallery\Storage;
+namespace NAttreid\Gallery\Control;
 
 /**
  * Image
@@ -12,7 +12,6 @@ namespace NAttreid\Gallery\Storage;
  */
 class Image
 {
-
 	use \Nette\SmartObject;
 
 	/** @var int */

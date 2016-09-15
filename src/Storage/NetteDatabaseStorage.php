@@ -9,22 +9,22 @@ use Nette\Database\Table\Selection;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class NetteDatabaseStorage implements \NAttreid\Gallery\IStorage
+class NetteDatabaseStorage implements IStorage
 {
 
 	/** @var Selection */
 	private $model;
 
 	/** @var string */
-	private $image, $position, $key;
+	private $name, $position, $key;
 
 	/** @var array */
 	private $foreignKey;
 
-	public function __construct(Selection $storage, $image, $position, $key)
+	public function __construct(Selection $model, $name, $position, $key)
 	{
-		$this->model = $storage;
-		$this->image = $image;
+		$this->model = $model;
+		$this->name = $name;
 		$this->position = $position;
 		$this->key = $key;
 	}
@@ -51,7 +51,7 @@ class NetteDatabaseStorage implements \NAttreid\Gallery\IStorage
 	public function add($image)
 	{
 		$data = [
-			$this->image => $image,
+			$this->name => $image,
 			$this->position => $this->getModel()->max($this->position) + 1
 		];
 		if (!empty($this->foreignKey)) {
@@ -64,11 +64,11 @@ class NetteDatabaseStorage implements \NAttreid\Gallery\IStorage
 	{
 		$model = $this->getModel();
 		if ($keys != NULL) {
-			$model = $model->wherePrimary($keys);
+			$model = $model->where($this->key, $keys);
 		} elseif (!empty($this->foreignKey)) {
 			$model->where($this->foreignKey[0], $this->foreignKey[1]);
 		}
-		$result = $model->fetchPairs($this->key, $this->image);
+		$result = $model->fetchPairs($this->key, $this->name);
 		$model->delete();
 		return $result;
 	}
@@ -80,9 +80,9 @@ class NetteDatabaseStorage implements \NAttreid\Gallery\IStorage
 			$model->where($this->foreignKey[0], $this->foreignKey[1]);
 		}
 		$result = [];
-		$rows = $model->order($this->position)->fetchAll();
+		$rows = $model->order($this->position);
 		foreach ($rows as $row) {
-			$result[] = new Image($row[$this->key], $row[$this->image]);
+			$result[] = new Image($row[$this->key], $row[$this->name]);
 		}
 		return $result;
 	}
@@ -90,7 +90,7 @@ class NetteDatabaseStorage implements \NAttreid\Gallery\IStorage
 	public function get($key)
 	{
 		$row = $this->getModel()->where($this->key, $key)->fetch();
-		return new Image($row[$this->key], $row[$this->image]);
+		return new Image($row[$this->key], $row[$this->name]);
 	}
 
 	public function getPrevious($key)
@@ -106,7 +106,7 @@ class NetteDatabaseStorage implements \NAttreid\Gallery\IStorage
 			->limit(1)
 			->fetch();
 		if ($row) {
-			return new Image($row[$this->key], $row[$this->image]);
+			return new Image($row[$this->key], $row[$this->name]);
 		} else {
 			return FALSE;
 		}
@@ -125,7 +125,7 @@ class NetteDatabaseStorage implements \NAttreid\Gallery\IStorage
 			->limit(1)
 			->fetch();
 		if ($row) {
-			return new Image($row[$this->key], $row[$this->image]);
+			return new Image($row[$this->key], $row[$this->name]);
 		} else {
 			return FALSE;
 		}
@@ -134,15 +134,15 @@ class NetteDatabaseStorage implements \NAttreid\Gallery\IStorage
 	public function update($key, $image)
 	{
 		$this->getModel()->where($this->key, $key)->update([
-			$this->image => $image,
+			$this->name => $image,
 		]);
 	}
 
 	public function updatePosition($data)
 	{
-		foreach ($data as $key => $value) {
-			$this->getModel()->where($this->key, $value)->update([
-				$this->position => $key + 1
+		foreach ($data as $position => $key) {
+			$this->getModel()->where($this->key, $key)->update([
+				$this->position => $position + 1
 			]);
 		}
 	}

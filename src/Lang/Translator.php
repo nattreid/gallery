@@ -19,7 +19,7 @@ class Translator implements \Nette\Localization\ITranslator
 	 */
 	public function setLang($lang)
 	{
-		if (!$this->translations = @include(__DIR__ . "/$lang.php")) {
+		if (!$this->translations = @include(__DIR__ . "/Translator.php")) {
 			throw new \InvalidArgumentException("Translations for language '$lang' not found.");
 		}
 	}

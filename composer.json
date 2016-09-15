@@ -28,7 +28,12 @@
     "nette/tester": "~1.7",
     "nette/database": "~2.4",
     "nattreid/orm": "~1.0",
-    "nattreid/crm": "dev-master"
+    "nattreid/crm": "dev-master",
+    "nattreid/form": "dev-master",
+    "kdyby/forms-replicator": "dev-master",
+    "nextras/forms": "dev-master",
+    "nattreid/filemanager": "dev-master",
+    "kdyby/translation": "dev-master"
   },
   "autoload": {
     "classmap": [

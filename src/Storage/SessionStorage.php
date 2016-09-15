@@ -9,7 +9,7 @@ use Nette\Http\SessionSection;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class SessionStorage implements \NAttreid\Gallery\IStorage
+class SessionStorage implements IStorage
 {
 
 	/** @var SessionSection */

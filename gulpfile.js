@@ -24,17 +24,9 @@ var paths = {
 // ************************************  JS  ***********************************
 
 var boundledJS = [
-    paths.dev.vendor + 'plupload/js/moxie.js',
-    paths.dev.vendor + 'plupload/js/plupload.dev.js',
-    paths.dev.vendor + 'plupload/js/jquery.ui.plupload/jquery.ui.plupload.js',
+    paths.dev.vendor + 'dropzone/dist/dropzone.js',
     paths.dev.js + '*.js'
 ];
-
-var locale = {
-    'cs': [
-        paths.dev.vendor + 'plupload/js/i18n/cs.js'
-    ]
-};
 
 gulp.task('js', function () {
     return gulp.src(paths.dev.js + '*.js')
@@ -62,24 +54,12 @@ gulp.task('jsBoundledMin', function () {
         .pipe(gulp.dest(paths.production.js));
 });
 
-gulp.task('jsCs', function () {
-    return gulp.src(locale.cs)
-        .pipe(concat('gallery.cs.js'))
-        .pipe(gulp.dest(paths.production.lang));
-});
-
-gulp.task('jsCsMin', function () {
-    return gulp.src(locale.cs)
-        .pipe(concat('gallery.cs.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest(paths.production.lang));
-});
-
 // *****************************************************************************
 // ***********************************  CSS  ***********************************
 
 var boundledCSS = [
-    paths.dev.vendor + 'plupload/js/jquery.ui.plupload/css/jquery.ui.plupload.css',
+    paths.dev.vendor + 'dropzone/dist/dropzone.basic.css',
+    paths.dev.vendor + 'dropzone/dist/dropzone.dropzone.css',
 ];
 
 gulp.task('css', function () {
@@ -120,17 +100,12 @@ gulp.task('cssBoundledMin', function () {
 
 // *****************************************************************************
 
-gulp.task('images', function () {
-    return gulp.src(paths.dev.vendor + 'plupload/js/jquery.ui.plupload/img/**.*')
-        .pipe(gulp.dest(paths.production.images));
-});
-
 gulp.task('watch', function () {
-    gulp.watch(paths.dev.js + '*.js', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsCs', 'jsCsMin']);
-    gulp.watch(paths.dev.vendor + '*.js', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsCs', 'jsCsMin']);
+    gulp.watch(paths.dev.js + '*.js', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin']);
+    gulp.watch(paths.dev.vendor + '*.js', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin']);
 
     gulp.watch(paths.dev.less + '*.less', ['css', 'cssBoundled', 'cssMin', 'cssBoundledMin']);
     gulp.watch(paths.dev.vendor + '*.css', ['css', 'cssBoundled', 'cssMin', 'cssBoundledMin']);
 });
 
-gulp.task('default', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'jsCs', 'jsCsMin', 'css', 'cssBoundled', 'cssMin', 'cssBoundledMin', 'images', 'watch']);
+gulp.task('default', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'css', 'cssBoundled', 'cssMin', 'cssBoundledMin', 'watch']);

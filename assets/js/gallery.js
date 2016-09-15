@@ -86,6 +86,19 @@
     };
 
     $(document).ready(function () {
+        $('.componentGallery .uplader form').dropzone({
+            dictMaxFilesExceeded: $(this).data('dictMaxFilesExceeded'),
+            dictFallbackMessage: $(this).data('dictFallbackMessage'),
+            dictFallbackText: $(this).data('dictFallbackText'),
+            dictInvalidFileType: $(this).data('dictInvalidFileType'),
+            dictFileTooBig: $(this).data('dictFileTooBig'),
+            dictResponseError: $(this).data('dictResponseError'),
+            dictCancelUpload: $(this).data('dictCancelUpload'),
+            dictCancelUploadConfirmation: $(this).data('dictCancelUploadConfirmation'),
+            dictRemoveFile: $(this).data('dictRemoveFile'),
+            dictMaxFilesExceeded: $(this).data('dictMaxFilesExceeded')
+        });
+
         window.Gallery.sortable();
 
         $(document).on('click', '.componentGallery .buttons .deleteChoosedImage', function () {

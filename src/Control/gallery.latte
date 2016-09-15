@@ -1,6 +1,18 @@
 <div class="componentGallery {$componentId}" n:snippet="gallery">
     <div class="uploader">
-        {control plupload}
+        <form
+                action="{link upload}"
+                data-dictDefaultMessage="{_gallery.dictDefaultMessage}"
+                data-dictFallbackMessage="{_gallery.dictFallbackMessage}"
+                data-dictFallbackText="{_gallery.dictFallbackText}"
+                data-dictInvalidFileType="{_gallery.dictInvalidFileType}"
+                data-dictFileTooBig="{_gallery.dictFileTooBig}"
+                data-dictResponseError="{_gallery.dictResponseError}"
+                data-dictCancelUpload="{_gallery.dictCancelUpload}"
+                data-dictCancelUploadConfirmation="{_gallery.dictCancelUploadConfirmation}"
+                data-dictRemoveFile="{_gallery.dictRemoveFile}"
+                data-dictMaxFilesExceeded="{_gallery.dictMaxFilesExceeded}"
+        ></form>
     </div>
     <div class="gallery">
         {snippet viewer}

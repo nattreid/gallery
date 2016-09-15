@@ -1,13 +1,4 @@
 /* ************************* gallery.less *********************************** */
-.plupload_logo {
-  background-image: url('/images/gallery/plupload.png') !important;
-}
-.plupload_thumb_loading {
-  background-image: url('/images/gallery/loading.gif') !important;
-}
-.componentGallery .uploader {
-  width: 99%;
-}
 .componentGallery .gallery {
   padding-top: 20px;
 }

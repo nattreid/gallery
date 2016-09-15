@@ -1,6 +1,7 @@
 <?php
 
-namespace NAttreid\Gallery;
+namespace NAttreid\Gallery\Storage;
+use NAttreid\Gallery\Control\Image;
 
 /**
  * Storage
@@ -12,13 +13,13 @@ interface IStorage
 	/**
 	 * Vrati obrazek
 	 * @param int $key
-	 * @return Storage\Image
+	 * @return Image
 	 */
 	public function get($key);
 
 	/**
 	 * Vrati vsechny obrazky
-	 * @return Storage\Image[]
+	 * @return Image[]
 	 */
 	public function fetchAll();
 
@@ -31,14 +32,14 @@ interface IStorage
 	/**
 	 * Vrati predchozi obrazek
 	 * @param int $key
-	 * @return Storage\Image
+	 * @return Image
 	 */
 	public function getPrevious($key);
 
 	/**
 	 * Vrati nasledujici obrazek
 	 * @param int $key
-	 * @return Storage\Image
+	 * @return Image
 	 */
 	public function getNext($key);
 

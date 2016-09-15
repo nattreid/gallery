@@ -2,7 +2,6 @@
 
 namespace NAttreid\Gallery\DI;
 
-use NAttreid\Crm\LoaderFactory;
 use NAttreid\Gallery\Gallery;
 use NAttreid\Gallery\IGalleryFactory;
 use NAttreid\Gallery\Plupload\IPluploadControlFactory;
@@ -38,40 +37,21 @@ class GalleryExtension extends \Nette\DI\CompilerExtension
 			->setFactory(Gallery::class)
 			->setImplement(IGalleryFactory::class)
 			->setArguments([$config['maxImageSize'], $config['maxImagesSize']]);
-
-		$builder->addDefinition($this->prefix('plupload.control'))
-			->setFactory(PluploadControl::class)
-			->setImplement(IPluploadControlFactory::class);
-
-		$builder->addDefinition($this->prefix('plupload.uploader'))
-			->setClass(Uploader::class)
-			->setArguments([$config['temp']]);
-
-		$builder->addDefinition($this->prefix('plupload.uploadQueue'))
-			->setFactory(UploadQueue::class)
-			->setImplement(IUploadQueueFactory::class)
-			->setArguments([$builder->literal('$id')])
-			->setParameters(['id']);
-
-		$builder->addDefinition($this->prefix('plupload.upload'))
-			->setFactory(Upload::class)
-			->setImplement(IUploadFactory::class)
-			->setArguments([$builder->literal('$filename'), $builder->literal('$name')])
-			->setParameters(['filename', 'name']);
 	}
+	/*
+		public function beforeCompile()
+		{
+			$path = __DIR__ . '/../../assets/';
+			$builder = $this->getContainerBuilder();
+			$loader = $builder->getByType(LoaderFactory::class);
+			try {
+				$builder->getDefinition($loader)
+					->addSetup('addFile', [$path . 'css/gallery.boundled.min.css'])
+					->addSetup('addFile', [$path . 'js/gallery.boundled.min.js'])
+					->addSetup('addFile', [$path . 'js/i18n/gallery.cs.min.js', 'cs']);
+			} catch (\Nette\DI\MissingServiceException $ex) {
 
-	public function beforeCompile()
-	{
-		$path = __DIR__ . '/../../assets/';
-		$builder = $this->getContainerBuilder();
-		$loader = $builder->getByType(LoaderFactory::class);
-		try {
-			$builder->getDefinition($loader)
-				->addSetup('addFile', [$path . 'css/gallery.boundled.min.css'])
-				->addSetup('addFile', [$path . 'js/gallery.boundled.min.js'])
-				->addSetup('addFile', [$path . 'js/i18n/gallery.cs.min.js', 'cs']);
-		} catch (\Nette\DI\MissingServiceException $ex) {
-
+			}
 		}
-	}
+	*/
 }
