@@ -1775,6 +1775,8 @@
         return;
     }
 
+    window.Dropzone.autoDiscover = false;
+
     window.Gallery = {};
 
     window.Gallery.viewer;
@@ -1854,17 +1856,19 @@
     };
 
     $(document).ready(function () {
-        $('.componentGallery .uploader form').dropzone({
-            dictMaxFilesExceeded: $(this).data('dictMaxFilesExceeded'),
-            dictFallbackMessage: $(this).data('dictFallbackMessage'),
-            dictFallbackText: $(this).data('dictFallbackText'),
-            dictInvalidFileType: $(this).data('dictInvalidFileType'),
-            dictFileTooBig: $(this).data('dictFileTooBig'),
-            dictResponseError: $(this).data('dictResponseError'),
-            dictCancelUpload: $(this).data('dictCancelUpload'),
-            dictCancelUploadConfirmation: $(this).data('dictCancelUploadConfirmation'),
-            dictRemoveFile: $(this).data('dictRemoveFile'),
-            dictMaxFilesExceeded: $(this).data('dictMaxFilesExceeded')
+        var form = $('.componentGallery .uploader form');
+        form.dropzone({
+            dictDefaultMessage: form.data('dictdefaultmessage'),
+            dictMaxFilesExceeded: form.data('dictmaxfilesexceeded'),
+            dictFallbackMessage: form.data('dictfallbackmessage'),
+            dictFallbackText: form.data('dictfallbacktext'),
+            dictInvalidFileType: form.data('dictinvalidfiletype'),
+            dictFileTooBig: form.data('dictfiletoobig'),
+            dictResponseError: form.data('dictresponseerror'),
+            dictCancelUpload: form.data('dictcancelupload'),
+            dictCancelUploadConfirmation: form.data('dictcanceluploadconfirmation'),
+            dictRemoveFile: form.data('dictremovefile'),
+            dictMaxFilesExceeded: form.data('dictmaxfilesexceeded')
         });
 
         window.Gallery.sortable();
