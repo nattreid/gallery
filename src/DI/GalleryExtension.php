@@ -2,8 +2,10 @@
 
 namespace NAttreid\Gallery\DI;
 
-use NAttreid\Gallery\Gallery;
-use NAttreid\Gallery\IGalleryFactory;
+use NAttreid\Crm\LoaderFactory;
+use NAttreid\Gallery\Control\Gallery;
+use NAttreid\Gallery\Control\IGalleryFactory;
+
 
 /**
  * Nastaveni Gallery
