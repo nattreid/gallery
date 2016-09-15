@@ -18,7 +18,7 @@ class GalleryExtension extends \Nette\DI\CompilerExtension
 	private $defaults = [
 		'maxImageSize' => 5,
 		'maxImagesSize' => 20,
-		'temp' => '%tempDir%/plupload'
+		'temp' => '%tempDir%/gallery'
 	];
 
 	public function loadConfiguration()

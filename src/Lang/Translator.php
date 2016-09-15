@@ -2,6 +2,8 @@
 
 namespace NAttreid\Gallery\Lang;
 
+use InvalidArgumentException;
+
 /**
  * Translator
  *
@@ -15,12 +17,12 @@ class Translator implements \Nette\Localization\ITranslator
 	/**
 	 * Nastavi jazyk
 	 * @param string $lang
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	public function setLang($lang)
 	{
-		if (!$this->translations = @include(__DIR__ . "/Translator.php")) {
-			throw new \InvalidArgumentException("Translations for language '$lang' not found.");
+		if (!$this->translations = @include(__DIR__ . "/$lang.php")) {
+			throw new InvalidArgumentException("Translations for language '$lang' not found.");
 		}
 	}
 
