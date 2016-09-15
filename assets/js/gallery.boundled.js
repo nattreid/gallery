@@ -1855,7 +1855,7 @@
     };
 
     $(document).ready(function () {
-        $('.componentGallery .uplader form').dropzone({
+        $('.componentGallery .uploader form').dropzone({
             dictMaxFilesExceeded: $(this).data('dictMaxFilesExceeded'),
             dictFallbackMessage: $(this).data('dictFallbackMessage'),
             dictFallbackText: $(this).data('dictFallbackText'),
