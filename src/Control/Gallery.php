@@ -270,8 +270,7 @@ class Gallery extends Control
 			$this->storage->setForeignKey($key, $value);
 		} elseif ($this->storage instanceof NextrasOrmStorage) {
 			$this->storage->setForeignKey($key, $value);
-		}
-		{
+		} else {
 			throw new InvalidArgumentException('Storage is not database');
 		}
 	}
