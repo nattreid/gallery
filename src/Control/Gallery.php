@@ -315,7 +315,7 @@ class Gallery extends Control
 				exit($this->translator->translate('gallery.error.' . $msg));
 			}
 
-			$image = $this->imageStorage->saveImage(Image::fromFile($file->name), $file->sanitizedName, $this->namespace);
+			$image = $this->imageStorage->saveImage(Image::fromFile($file->temporaryFile), $file->sanitizedName, $this->namespace);
 			$this->getModel()->add($image);
 			$this->redrawControl('gallery');
 		} else {
