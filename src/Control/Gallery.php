@@ -316,7 +316,7 @@ class Gallery extends Control
 			}
 
 			$image = $this->imageStorage->saveImage(Image::fromFile($file->temporaryFile), $file->sanitizedName, $this->namespace);
-			$this->getModel()->add($image);
+			$this->getStorage()->add($image);
 			$this->redrawControl('gallery');
 		} else {
 			$this->presenter->terminate();
