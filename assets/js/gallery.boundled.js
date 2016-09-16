@@ -1868,7 +1868,8 @@
             dictCancelUpload: form.data('dictcancelupload'),
             dictCancelUploadConfirmation: form.data('dictcanceluploadconfirmation'),
             dictRemoveFile: form.data('dictremovefile'),
-            dictMaxFilesExceeded: form.data('dictmaxfilesexceeded')
+            dictMaxFilesExceeded: form.data('dictmaxfilesexceeded'),
+            acceptedFiles: 'image/jpeg,image/png,image/gif'
         });
 
         window.Gallery.sortable();

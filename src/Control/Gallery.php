@@ -14,6 +14,7 @@ use Nette\Http\Request;
 use Nette\Http\SessionSection;
 use Nette\InvalidArgumentException;
 use Nette\Localization\ITranslator;
+use Nette\Utils\Image;
 use Nette\Utils\Json;
 use WebChemistry\Images\AbstractStorage;
 

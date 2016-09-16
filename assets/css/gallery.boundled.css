@@ -429,8 +429,8 @@
 
 /* ************************* gallery.less *********************************** */
 .componentGallery .uploader .dropzone {
-  height: 150px;
-  overflow: hidden;
+  max-height: 180px;
+  overflow: auto;
 }
 .componentGallery .gallery {
   padding-top: 20px;
