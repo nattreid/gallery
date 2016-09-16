@@ -103,7 +103,12 @@
             dictMaxFilesExceeded: form.data('dictmaxfilesexceeded'),
             acceptedFiles: 'image/jpeg,image/png,image/gif',
             maxFileSize: form.data('max-file-size'),
-            maxFiles: form.data('max-files')
+            maxFiles: form.data('max-files'),
+            init: function () {
+                this.on("queuecomplete", function () {
+                    $.nette.ajax(form.data('refresh-url'))
+                });
+            }
         });
 
         window.Gallery.sortable();

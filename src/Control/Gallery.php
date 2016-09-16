@@ -317,6 +317,16 @@ class Gallery extends Control
 
 			$image = $this->imageStorage->saveImage(Image::fromFile($file->temporaryFile), $file->sanitizedName, $this->namespace);
 			$this->getStorage()->add($image);
+		}
+		$this->presenter->terminate();
+	}
+
+	/**
+	 * Obnovi galerii
+	 */
+	public function handleRefresh()
+	{
+		if ($this->presenter->isAjax()) {
 			$this->redrawControl('gallery');
 		} else {
 			$this->presenter->terminate();
