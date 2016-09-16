@@ -6,7 +6,7 @@ namespace NAttreid\Gallery\Control;
  * Image
  *
  * @property-read int $key
- * @property-read string $image
+ * @property-read string $name
  *
  * @author Attreid <attreid@gmail.com>
  */
@@ -18,12 +18,12 @@ class Image
 	private $key;
 
 	/** @var string */
-	private $image;
+	private $name;
 
-	public function __construct($key, $image)
+	public function __construct($key, $name)
 	{
 		$this->key = $key;
-		$this->image = $image;
+		$this->name = $name;
 	}
 
 	public function getKey()
@@ -31,9 +31,9 @@ class Image
 		return $this->key;
 	}
 
-	public function getImage()
+	public function getName()
 	{
-		return $this->image;
+		return $this->name;
 	}
 
 }

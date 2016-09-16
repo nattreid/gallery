@@ -252,10 +252,10 @@ class Gallery extends Control
 		$this->setNamespace($namespace);
 		$result = $this->getStorage()->fetchAll();
 		foreach ($result as $row) {
-			$image = $this->imageStorage->get($row->image);
+			$image = $this->imageStorage->get($row->name);
 			$name = $this->imageStorage->saveImage(Image::fromFile($image->getAbsolutePath()), $image->getName(), $this->namespace);
 			$this->getStorage()->update($row->key, $name);
-			$this->imageStorage->delete($row->image);
+			$this->imageStorage->delete($row->name);
 		}
 	}
 
