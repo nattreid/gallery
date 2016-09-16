@@ -44,7 +44,7 @@ class NextrasOrmStorage implements IStorage
 
 	public function add($image)
 	{
-		list($entityClass) = $this->repository->getEntityClassName([]);
+		$entityClass = $this->repository->getEntityClassName([]);
 		/* @var $entity IEntity */
 		$entity = new $entityClass;
 		$this->repository->attach($entity);

@@ -90,17 +90,17 @@ class Gallery extends Control
 	/**
 	 * Nastavi uloziste
 	 * @param Selection|SessionSection|Repository $storage
-	 * @param string $image
+	 * @param string $name
 	 * @param string $position
 	 * @param string $key
 	 * @internal param string $column
 	 */
-	public function setStorage($storage, $image = 'image', $position = 'position', $key = 'id')
+	public function setStorage($storage, $name = 'name', $position = 'position', $key = 'id')
 	{
 		if ($storage instanceof Selection) {
-			$this->storage = new NetteDatabaseStorage($storage, $image, $position, $key);
+			$this->storage = new NetteDatabaseStorage($storage, $name, $position, $key);
 		} elseif ($storage instanceof Repository) {
-			$this->storage = new NextrasOrmStorage($storage, $image, $position, $key);
+			$this->storage = new NextrasOrmStorage($storage, $name, $position, $key);
 		} elseif ($storage instanceof SessionSection) {
 			$this->storage = new SessionStorage($storage);
 		}
