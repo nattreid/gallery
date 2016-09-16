@@ -428,6 +428,10 @@
         border-bottom: 6px solid #be2626; }
 
 /* ************************* gallery.less *********************************** */
+.componentGallery .uploader .dropzone {
+  height: 150px;
+  overflow: hidden;
+}
 .componentGallery .gallery {
   padding-top: 20px;
 }

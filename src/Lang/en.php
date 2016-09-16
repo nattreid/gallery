@@ -14,5 +14,8 @@ return [
 	'gallery.dictCancelUpload' => 'Cancel upload',
 	'gallery.dictCancelUploadConfirmation' => 'Are you sure you want to cancel this upload?',
 	'gallery.dictRemoveFile' => 'Remove file',
-	'gallery.dictMaxFilesExceeded' => 'You can not upload any more files.'
+	'gallery.dictMaxFilesExceeded' => 'You can not upload any more files.',
+	'gallery.error.tooBig' => 'The uploaded file is too big.',
+	'gallery.error.noFile' => 'No file was uploaded.',
+	'gallery.error.failedUpload' => 'Failed to upload file.'
 ];

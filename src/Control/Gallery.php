@@ -10,6 +10,7 @@ use NAttreid\Gallery\Storage\SessionStorage;
 use NAttreid\Orm\Repository;
 use Nette\Application\UI\Control;
 use Nette\Database\Table\Selection;
+use Nette\Http\Request;
 use Nette\Http\SessionSection;
 use Nette\InvalidArgumentException;
 use Nette\Localization\ITranslator;
@@ -40,15 +41,17 @@ class Gallery extends Control
 
 	/** @var ITranslator */
 	private $translator;
+	/** @var Request */
+	private $request;
 
-
-	public function __construct($maxImagesSize, $maxImageSize, AbstractStorage $imageStorage)
+	public function __construct($maxImagesSize, $maxImageSize, AbstractStorage $imageStorage, Request $request)
 	{
 		parent::__construct();
 		$this->maxImagesSize = $maxImagesSize;
 		$this->maxImageSize = $maxImageSize;
 		$this->imageStorage = $imageStorage;
 		$this->translator = new Translator;
+		$this->request = $request;
 	}
 
 	/**
@@ -282,9 +285,40 @@ class Gallery extends Control
 		}
 	}
 
+	/**
+	 *
+	 */
 	public function handleUpload()
 	{
+		if ($this->presenter->isAjax()) {
+			$file = $this->request->getFile('file');
+			if ($file->error !== UPLOAD_ERR_OK) {
+				header('HTTP/1.1 500 Internal Server Error');
+				header('Content-type: text/plain');
+				switch ($file->error) {
+					case UPLOAD_ERR_INI_SIZE:
+					case UPLOAD_ERR_FORM_SIZE:
+						$msg = 'tooBig';
+						break;
+					case UPLOAD_ERR_NO_FILE:
+						$msg = 'noFile';
+						break;
+					case UPLOAD_ERR_PARTIAL:
+					case UPLOAD_ERR_NO_TMP_DIR:
+					case UPLOAD_ERR_CANT_WRITE:
+					case UPLOAD_ERR_EXTENSION:
+						$msg = 'failedUpload';
+						break;
+				}
+				exit($this->translator->translate('gallery.error.' . $msg));
+			}
 
+			$image = $this->imageStorage->saveImage(Image::fromFile($file->name), $file->sanitizedName, $this->namespace);
+			$this->getModel()->add($image);
+			$this->redrawControl('gallery');
+		} else {
+			$this->presenter->terminate();
+		}
 	}
 
 	public function render()

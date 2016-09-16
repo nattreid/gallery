@@ -5,7 +5,7 @@ return [
 	'gallery.deleteImages' => 'Smazat obrázky',
 	'gallery.deleteAllImages' => 'Smazat všechny obrázky',
 	'gallery.show' => 'Zobrazit',
-	'gallery.dictDefaultMessage' => 'Vložte zde soubory pro nahrání',
+	'gallery.dictDefaultMessage' => 'Zde vložte soubory pro nahrání',
 	'gallery.dictFallbackMessage' => 'Váš prohlížen nepodporuje drag\'n\'drop nahrání souborů.',
 	'gallery.dictFallbackText' => 'Prosím, využijte formulář pro nahrání souborů jako za starých časů.',
 	'gallery.dictInvalidFileType' => 'Nemůžete nahrát soubory tohoto typu.',
@@ -14,5 +14,8 @@ return [
 	'gallery.dictCancelUpload' => 'Zrušit nahrávání',
 	'gallery.dictCancelUploadConfirmation' => 'Opravdu chcete zrušit nahrávání?',
 	'gallery.dictRemoveFile' => 'Smazat soubor',
-	'gallery.dictMaxFilesExceeded' => 'Nemůžete nahrát jakékoliv další soubory.'
+	'gallery.dictMaxFilesExceeded' => 'Nemůžete nahrát jakékoliv další soubory.',
+	'gallery.error.tooBig' => 'Nahraný soubor je příliš velký.',
+	'gallery.error.noFile' => 'No file was uploaded.',
+	'gallery.error.failedUpload' => 'Failed to upload file.'
 ];
