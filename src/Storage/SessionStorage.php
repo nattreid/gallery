@@ -2,6 +2,7 @@
 
 namespace NAttreid\Gallery\Storage;
 
+use NAttreid\Gallery\Control\Image;
 use Nette\Http\SessionSection;
 
 /**

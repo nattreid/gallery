@@ -2,6 +2,7 @@
 
 namespace NAttreid\Gallery\Storage;
 
+use NAttreid\Gallery\Control\Image;
 use NAttreid\Orm\Repository;
 use Nextras\Orm\Collection\ICollection;
 use Nextras\Orm\Entity\IEntity;
@@ -43,7 +44,7 @@ class NextrasOrmStorage implements IStorage
 
 	public function add($image)
 	{
-		list($entityClass) = $this->repository->getEntityClassName();
+		list($entityClass) = $this->repository->getEntityClassName([]);
 		/* @var $entity IEntity */
 		$entity = new $entityClass;
 		$this->repository->attach($entity);
@@ -56,8 +57,9 @@ class NextrasOrmStorage implements IStorage
 
 	public function delete($keys = NULL)
 	{
+		$rows = $this->repository->findAll();
 		if (!empty($this->foreignKey)) {
-			$rows = $this->repository->findBy([$this->foreignKey[0] => $this->foreignKey[1]]);
+			$rows = $rows->findBy([$this->foreignKey[0] => $this->foreignKey[1]]);
 		}
 		if ($keys != NULL) {
 			$rows = $rows->findBy([$this->key => $keys]);
@@ -73,8 +75,9 @@ class NextrasOrmStorage implements IStorage
 
 	public function fetchAll()
 	{
+		$rows = $this->repository->findAll();
 		if (!empty($this->foreignKey)) {
-			$rows = $this->repository->findBy([$this->foreignKey[0] => $this->foreignKey[1]]);
+			$rows = $rows->findBy([$this->foreignKey[0] => $this->foreignKey[1]]);
 		}
 		$rows = $rows->orderBy($this->position);
 
@@ -94,9 +97,10 @@ class NextrasOrmStorage implements IStorage
 	public function getPrevious($key)
 	{
 		$position = $this->repository->getBy([$this->key => $key])->{$this->position};
+		$rows = $this->repository->findAll();
 
 		if (!empty($this->foreignKey)) {
-			$rows = $this->repository->findBy([$this->foreignKey[0] => $this->foreignKey[1]]);
+			$rows = $rows->findBy([$this->foreignKey[0] => $this->foreignKey[1]]);
 		}
 		$rows = $rows->orderBy($this->position, ICollection::DESC);
 		$row = $rows->getBy([$this->position . '<' => $position]);
@@ -111,9 +115,10 @@ class NextrasOrmStorage implements IStorage
 	public function getNext($key)
 	{
 		$position = $this->repository->getBy([$this->key => $key])->{$this->position};
+		$rows = $this->repository->findAll();
 
 		if (!empty($this->foreignKey)) {
-			$rows = $this->repository->findBy([$this->foreignKey[0] => $this->foreignKey[1]]);
+			$rows = $rows->findBy([$this->foreignKey[0] => $this->foreignKey[1]]);
 		}
 		$rows = $rows->orderBy($this->position);
 		$row = $rows->getBy([$this->position . '>' => $position]);
