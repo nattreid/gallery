@@ -5,13 +5,13 @@ extensions:
     gallery: NAttreid\Gallery\DI\GalleryExtension
 
 gallery:
-    maxImageSize: 2 #MB
-    maxImagesSize: 50 # MB
+    maxFileSize: 5 #MB
+    maxFiles: 50
 ```
 
 ### Načtení továrny
 ```php
-/** @var \NAttreid\Gallery\IGalleryFactory @inject */
+/** @var \NAttreid\Gallery\Control\IGalleryFactory @inject */
 public $galleryFactory;
 ```
 
@@ -51,14 +51,12 @@ protected function createComponentGallery() {
     return $gallery;
 }
 
-function onSuccessForm(Form $form) {
-    $values = $form->getValues();
-    
+function onSuccessForm(Form $form, $values) {
     $createGallery = empty($values->id);
     $id = $this->model->save($values->id, $values)->getPrimary();  
 
     if ($createGallery) {
-        /** @var $gallery \NAttreid\Gallery\Gallery */
+        /* @var $gallery \NAttreid\Gallery\Gallery */
         $gallery=$this['gallery'];
 
         $gallery->changeNamespace('item/' . $values->url);
