@@ -35,21 +35,22 @@ class Gallery extends Control
 	private $namespace;
 
 	/** @var int */
-	private $maxImagesSize;
+	private $maxFiles;
 
 	/** @var int */
-	private $maxImageSize;
+	private $maxFileSize;
 
 	/** @var ITranslator */
 	private $translator;
+
 	/** @var Request */
 	private $request;
 
-	public function __construct($maxImagesSize, $maxImageSize, AbstractStorage $imageStorage, Request $request)
+	public function __construct($maxFileSize, $maxFiles, AbstractStorage $imageStorage, Request $request)
 	{
 		parent::__construct();
-		$this->maxImagesSize = $maxImagesSize;
-		$this->maxImageSize = $maxImageSize;
+		$this->maxFileSize = $maxFileSize;
+		$this->maxFiles = $maxFiles;
 		$this->imageStorage = $imageStorage;
 		$this->translator = new Translator;
 		$this->request = $request;
@@ -330,6 +331,8 @@ class Gallery extends Control
 
 		$this->template->componentId = $this->getUniqueId();
 		$this->template->imageStorage = $this->imageStorage;
+		$this->template->maxFileSize = $this->maxFileSize;
+		$this->template->maxFiles = $this->maxFiles;
 
 		$this->template->setFile(__DIR__ . '/gallery.latte');
 		$this->template->render();

@@ -16,9 +16,8 @@ class GalleryExtension extends \Nette\DI\CompilerExtension
 {
 
 	private $defaults = [
-		'maxImageSize' => 5,
-		'maxImagesSize' => 20,
-		'temp' => '%tempDir%/gallery'
+		'maxFileSize' => 5,
+		'maxFiles' => 20,
 	];
 
 	public function loadConfiguration()
@@ -26,12 +25,10 @@ class GalleryExtension extends \Nette\DI\CompilerExtension
 		$config = $this->validateConfig($this->defaults, $this->getConfig());
 		$builder = $this->getContainerBuilder();
 
-		$config['temp'] = \Nette\DI\Helpers::expand($config['temp'], $builder->parameters);
-
 		$builder->addDefinition($this->prefix('gallery'))
 			->setFactory(Gallery::class)
 			->setImplement(IGalleryFactory::class)
-			->setArguments([$config['maxImageSize'], $config['maxImagesSize']]);
+			->setArguments([$config['maxFileSize'], $config['maxFiles']]);
 	}
 
 	public function beforeCompile()

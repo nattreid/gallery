@@ -13,6 +13,8 @@
                 data-dictcanceluploadconfirmation="{_gallery.dictCancelUploadConfirmation}"
                 data-dictremovefile="{_gallery.dictRemoveFile}"
                 data-dictmaxfilesexceeded="{_gallery.dictMaxFilesExceeded}"
+                data-max-file-size="{$maxFileSize}"
+                data-max-files="{$maxFiles}"
         ></form>
     </div>
     <div class="gallery">
@@ -53,7 +55,8 @@
         <div class="buttons">
             <a class="btn btn-danger deleteChoosedImage"
                data-url="{link deleteImages! 'jsonArgument'}">{_'gallery.deleteImages'}</a>
-            <a class="btn btn-danger ajax" data-ajax-off="history" n:href="deleteAllImages!">{_'gallery.deleteAllImages'}</a>
+            <a class="btn btn-danger ajax"
+               data-ajax-off="history" n:href="deleteAllImages!">{_'gallery.deleteAllImages'}</a>
         </div>
     </div>
     {if $presenter->isAjax()}
