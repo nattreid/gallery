@@ -2,6 +2,7 @@
 
 namespace NAttreid\Gallery\Control;
 
+use NAttreid\Gallery\Control\Image as NImage;
 use NAttreid\Gallery\Lang\Translator;
 use NAttreid\Gallery\Storage\IStorage;
 use NAttreid\Gallery\Storage\NetteDatabaseStorage;
@@ -107,7 +108,7 @@ class Gallery extends Control
 	}
 
 	/**
-	 * @return Image[]
+	 * @return NImage[]
 	 */
 	public function getImages()
 	{
