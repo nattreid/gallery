@@ -1,4 +1,4 @@
-<div class="componentGallery {$componentId}" n:snippet="gallery">
+<div class="componentGallery {$componentId}">
     <div class="uploader">
         <form
                 id="{$componentId}Dropzone"
@@ -36,7 +36,7 @@
                 </script>
             </div>
         {/snippet}
-        <ul data-url="{link updatePosition! 'jsonArgument'}">
+        <ul data-url="{link updatePosition! 'jsonArgument'}" n:snippet="gallery">
             <li n:foreach="$images as $image">
                 <div class="thumb">
                     <img
