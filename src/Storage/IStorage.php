@@ -58,8 +58,8 @@ interface IStorage
 
 	/**
 	 * Smaze obrazek
-	 * @param int|NULL $keys ppokud je NULL smaze vsechny obrazky
+	 * @param int|null $keys ppokud je null smaze vsechny obrazky
 	 * @return string[] seznam smazanych polozek
 	 */
-	public function delete($keys = NULL);
+	public function delete($keys = null);
 }

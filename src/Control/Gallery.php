@@ -82,7 +82,7 @@ class Gallery extends Control
 	 */
 	private function getStorage()
 	{
-		if ($this->storage === NULL) {
+		if ($this->storage === null) {
 			throw new InvalidArgumentException('Storage is not set');
 		}
 		return $this->storage;

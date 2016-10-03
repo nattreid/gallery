@@ -34,7 +34,7 @@ class SessionStorage implements IStorage
 		$this->session->gallery[] = $image;
 	}
 
-	public function delete($keys = NULL)
+	public function delete($keys = null)
 	{
 		$result = [];
 		if (is_array($keys)) {
@@ -42,7 +42,7 @@ class SessionStorage implements IStorage
 				$result[] = $value;
 				unset($this->session->gallery[$value]);
 			}
-		} elseif ($keys === NULL) {
+		} elseif ($keys === null) {
 			$result = $this->session->gallery;
 			$this->session->gallery = [];
 		} else {
@@ -74,7 +74,7 @@ class SessionStorage implements IStorage
 		while (key($this->session->gallery) != $key) {
 			$value = next($this->session->gallery);
 			if (empty($value)) {
-				return FALSE;
+				return false;
 			}
 		}
 		prev($this->session->gallery);
@@ -82,7 +82,7 @@ class SessionStorage implements IStorage
 		if ($image) {
 			return new Image(key($this->session->gallery), $image);
 		}
-		return FALSE;
+		return false;
 	}
 
 	public function getNext($key)
@@ -91,7 +91,7 @@ class SessionStorage implements IStorage
 		while (key($this->session->gallery) != $key) {
 			$value = next($this->session->gallery);
 			if (empty($value)) {
-				return FALSE;
+				return false;
 			}
 		}
 		next($this->session->gallery);
@@ -99,7 +99,7 @@ class SessionStorage implements IStorage
 		if ($image) {
 			return new Image(key($this->session->gallery), $image);
 		}
-		return FALSE;
+		return false;
 	}
 
 	public function update($key, $image)

@@ -55,13 +55,13 @@ class NextrasOrmStorage implements IStorage
 		$this->repository->persistAndFlush($entity);
 	}
 
-	public function delete($keys = NULL)
+	public function delete($keys = null)
 	{
 		$rows = $this->repository->findAll();
 		if (!empty($this->foreignKey)) {
 			$rows = $rows->findBy([$this->foreignKey[0] => $this->foreignKey[1]]);
 		}
-		if ($keys != NULL) {
+		if ($keys != null) {
 			$rows = $rows->findBy([$this->key => $keys]);
 		}
 
@@ -108,7 +108,7 @@ class NextrasOrmStorage implements IStorage
 		if ($row) {
 			return new Image($row->{$this->key}, $row->{$this->name});
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -125,7 +125,7 @@ class NextrasOrmStorage implements IStorage
 		if ($row) {
 			return new Image($row->{$this->key}, $row->{$this->name});
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 

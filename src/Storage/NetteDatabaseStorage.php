@@ -61,10 +61,10 @@ class NetteDatabaseStorage implements IStorage
 		$this->getModel()->insert($data);
 	}
 
-	public function delete($keys = NULL)
+	public function delete($keys = null)
 	{
 		$model = $this->getModel();
-		if ($keys != NULL) {
+		if ($keys != null) {
 			$model = $model->where($this->key, $keys);
 		} elseif (!empty($this->foreignKey)) {
 			$model->where($this->foreignKey[0], $this->foreignKey[1]);
@@ -109,7 +109,7 @@ class NetteDatabaseStorage implements IStorage
 		if ($row) {
 			return new Image($row[$this->key], $row[$this->name]);
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -128,7 +128,7 @@ class NetteDatabaseStorage implements IStorage
 		if ($row) {
 			return new Image($row[$this->key], $row[$this->name]);
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
