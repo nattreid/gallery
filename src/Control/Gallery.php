@@ -129,7 +129,7 @@ class Gallery extends Control
 	 */
 	public function handleDeleteAllImages()
 	{
-		if ($this->presenter->isAjax()) {
+		if ($this->request->isAjax()) {
 			$result = $this->getStorage()->delete();
 			foreach ($result as $row) {
 				$this->imageStorage->delete($row);
@@ -137,7 +137,7 @@ class Gallery extends Control
 
 			$this->redrawControl('gallery');
 		} else {
-			$this->presenter->terminate();
+			exit;
 		}
 	}
 
@@ -147,7 +147,7 @@ class Gallery extends Control
 	 */
 	public function handleDeleteImages($json)
 	{
-		if ($this->presenter->isAjax()) {
+		if ($this->request->isAjax()) {
 			$data = Json::decode($json);
 
 			$result = $this->getStorage()->delete($data);
@@ -167,7 +167,7 @@ class Gallery extends Control
 	 */
 	public function handleDeleteImage($id)
 	{
-		if ($this->presenter->isAjax()) {
+		if ($this->request->isAjax()) {
 			$result = $this->getStorage()->delete($id);
 			$this->imageStorage->delete($result);
 
@@ -183,7 +183,7 @@ class Gallery extends Control
 	 */
 	public function handleShowViewer($id)
 	{
-		if ($this->presenter->isAjax()) {
+		if ($this->request->isAjax()) {
 			$this->template->viewImage = $this->getStorage()->get($id);
 
 			$this->redrawControl('viewer');
@@ -198,7 +198,7 @@ class Gallery extends Control
 	 */
 	public function handleNextImage($id)
 	{
-		if ($this->presenter->isAjax()) {
+		if ($this->request->isAjax()) {
 			$row = $this->getStorage()->getNext($id);
 			if ($row) {
 				$this->template->viewImage = $row;
@@ -217,7 +217,7 @@ class Gallery extends Control
 	 */
 	public function handlePreviousImage($id)
 	{
-		if ($this->presenter->isAjax()) {
+		if ($this->request->isAjax()) {
 			$row = $this->getStorage()->getPrevious($id);
 			if ($row) {
 				$this->template->viewImage = $row;
@@ -236,7 +236,7 @@ class Gallery extends Control
 	 */
 	public function handleUpdatePosition($json)
 	{
-		if ($this->presenter->isAjax()) {
+		if ($this->request->isAjax()) {
 			$data = Json::decode($json);
 			$this->getStorage()->updatePosition($data);
 		}
@@ -292,7 +292,7 @@ class Gallery extends Control
 	 */
 	public function handleUpload()
 	{
-		if ($this->presenter->isAjax()) {
+		if ($this->request->isAjax()) {
 			$file = $this->request->getFile('file');
 			if ($file->error !== UPLOAD_ERR_OK) {
 				header('HTTP/1.1 500 Internal Server Error');
@@ -326,7 +326,7 @@ class Gallery extends Control
 	 */
 	public function handleRefresh()
 	{
-		if ($this->presenter->isAjax()) {
+		if ($this->request->isAjax()) {
 			$this->redrawControl('gallery');
 		} else {
 			$this->presenter->terminate();
