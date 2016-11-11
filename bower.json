@@ -22,6 +22,6 @@
     "jquery": "~1.12",
     "font-awesome": "~4.6",
     "enyo/dropzone": "~4.3",
-    "utils": "git@git.newtravel.cz:nattreid/utils.git#~1.0"
+    "utils": "git@git.newtravel.cz:nattreid/utils.git#latest"
   }
 }
