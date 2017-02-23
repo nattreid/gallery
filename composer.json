@@ -28,7 +28,7 @@
     "nette/tester": "~1.7",
     "nette/database": "~2.4",
     "nattreid/orm": "~1.0",
-    "nattreid/crm": "dev-master"
+    "nattreid/cms": "~1.0"
   },
   "autoload": {
     "classmap": [

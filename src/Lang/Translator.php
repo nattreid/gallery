@@ -3,13 +3,14 @@
 namespace NAttreid\Gallery\Lang;
 
 use InvalidArgumentException;
+use Nette\Localization\ITranslator;
 
 /**
  * Translator
  *
  * @author Attreid <attreid@gmail.com>
  */
-class Translator implements \Nette\Localization\ITranslator
+class Translator implements ITranslator
 {
 
 	private $translations;

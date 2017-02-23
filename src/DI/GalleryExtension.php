@@ -2,9 +2,11 @@
 
 namespace NAttreid\Gallery\DI;
 
-use NAttreid\Crm\LoaderFactory;
+use NAttreid\Cms\LoaderFactory;
 use NAttreid\Gallery\Control\Gallery;
 use NAttreid\Gallery\Control\IGalleryFactory;
+use Nette\DI\CompilerExtension;
+use Nette\DI\MissingServiceException;
 
 
 /**
@@ -12,7 +14,7 @@ use NAttreid\Gallery\Control\IGalleryFactory;
  *
  * @author Attreid <attreid@gmail.com>
  */
-class GalleryExtension extends \Nette\DI\CompilerExtension
+class GalleryExtension extends CompilerExtension
 {
 
 	private $defaults = [
@@ -40,7 +42,7 @@ class GalleryExtension extends \Nette\DI\CompilerExtension
 			$builder->getDefinition($loader)
 				->addSetup('addFile', [$path . 'css/gallery.boundled.min.css'])
 				->addSetup('addFile', [$path . 'js/gallery.boundled.min.js']);
-		} catch (\Nette\DI\MissingServiceException $ex) {
+		} catch (MissingServiceException $ex) {
 
 		}
 	}

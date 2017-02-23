@@ -2,6 +2,8 @@
 
 namespace NAttreid\Gallery\Control;
 
+use Nette\SmartObject;
+
 /**
  * Image
  *
@@ -12,7 +14,7 @@ namespace NAttreid\Gallery\Control;
  */
 class Image
 {
-	use \Nette\SmartObject;
+	use SmartObject;
 
 	/** @var int */
 	private $key;
