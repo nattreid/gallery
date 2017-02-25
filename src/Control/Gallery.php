@@ -2,8 +2,11 @@
 
 namespace NAttreid\Gallery\Control;
 
+use NAttreid\Cms\Configurator\Configurator;
+use NAttreid\Cms\Configurator\IConfigurator;
 use NAttreid\Gallery\Control\Image as NImage;
 use NAttreid\Gallery\Lang\Translator;
+use NAttreid\Gallery\Storage\ConfiguratorStorage;
 use NAttreid\Gallery\Storage\IStorage;
 use NAttreid\Gallery\Storage\NetteDatabaseStorage;
 use NAttreid\Gallery\Storage\NextrasOrmStorage;
@@ -90,10 +93,10 @@ class Gallery extends Control
 
 	/**
 	 * Nastavi uloziste
-	 * @param Selection|SessionSection|Repository $storage
-	 * @param string $name
-	 * @param string $position
-	 * @param string $key
+	 * @param Selection|SessionSection|Repository|IConfigurator $storage
+	 * @param string $name nazev sloupce nebo promenne kde se uklada nazev obrazku (sloupce v databazi, promenna pro Session a Configurator)
+	 * @param string $position nazev sloupce pro pozici (pouze pro databazove Storage)
+	 * @param string $key nazev sloupce pro id (pouze pro databazove Storage)
 	 * @internal param string $column
 	 */
 	public function setStorage($storage, $name = 'name', $position = 'position', $key = 'id')
@@ -103,7 +106,9 @@ class Gallery extends Control
 		} elseif ($storage instanceof Repository) {
 			$this->storage = new NextrasOrmStorage($storage, $name, $position, $key);
 		} elseif ($storage instanceof SessionSection) {
-			$this->storage = new SessionStorage($storage);
+			$this->storage = new SessionStorage($storage, $name);
+		} elseif ($storage instanceof Configurator) {
+			$this->storage = new ConfiguratorStorage($storage, $name);
 		}
 	}
 

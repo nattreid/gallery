@@ -28,13 +28,26 @@ function createComponentGalleryDB() {
 }
 ```
 
-### Použití s session
+### Použití se session
 ```php
 function createComponentGallerySession() {
     $session = $this->getSession('example/class');
 
     $gallery = $this->galleryFactory->create();
-    $gallery->setStorage($session);
+    $gallery->setStorage($session, 'nameOfVariableInSession');
+    $gallery->setNamespace('example/class');
+    return $gallery;
+}
+```
+
+### Použití s cms konfigurátorem
+```php
+/** @var \NAttreid\Cms\Configurator\Configurator @inject */
+public $configurator;
+
+function createComponentGalleryConfigurator() {
+    $gallery = $this->galleryFactory->create();
+    $gallery->setStorage($this->configurator, 'nameOfVariableInSession');
     $gallery->setNamespace('example/class');
     return $gallery;
 }
@@ -47,7 +60,7 @@ protected function createComponentGallery() {
     $session->setExpiration('1 hour');
 
     $gallery = $this->galleryFactory->create();
-    $gallery->setStorage($session);
+    $gallery->setStorage($session, 'example');
     return $gallery;
 }
 

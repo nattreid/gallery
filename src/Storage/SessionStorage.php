@@ -16,9 +16,17 @@ class SessionStorage implements IStorage
 	/** @var SessionSection */
 	private $session;
 
-	public function __construct(SessionSection $session)
+	/** @var string */
+	private $name;
+	
+	/** @var string[] */
+	private $variable;
+
+	public function __construct(SessionSection $session, $name)
 	{
 		$this->session = $session;
+		$this->name = $name;
+		$this->variable = &$session->$name;
 	}
 
 	/**
@@ -31,7 +39,7 @@ class SessionStorage implements IStorage
 
 	public function add($image)
 	{
-		$this->session->gallery[] = $image;
+		$this->variable[] = $image;
 	}
 
 	public function delete($keys = null)
@@ -40,14 +48,14 @@ class SessionStorage implements IStorage
 		if (is_array($keys)) {
 			foreach ($keys as $value) {
 				$result[] = $value;
-				unset($this->session->gallery[$value]);
+				unset($this->variable[$value]);
 			}
 		} elseif ($keys === null) {
-			$result = $this->session->gallery;
-			$this->session->gallery = [];
+			$result = $this->variable;
+			$this->variable = [];
 		} else {
-			$result[] = $this->session->gallery[$keys];
-			unset($this->session->gallery[$keys]);
+			$result[] = $this->variable[$keys];
+			unset($this->variable[$keys]);
 		}
 		return $result;
 	}
@@ -55,8 +63,8 @@ class SessionStorage implements IStorage
 	public function fetchAll()
 	{
 		$result = [];
-		if (!empty($this->session->gallery)) {
-			foreach ($this->session->gallery as $key => $image) {
+		if (!empty($this->variable)) {
+			foreach ($this->variable as $key => $image) {
 				$result[] = new Image($key, $image);
 			}
 		}
@@ -65,55 +73,54 @@ class SessionStorage implements IStorage
 
 	public function get($key)
 	{
-		return new Image($key, $this->session->gallery[$key]);
+		return new Image($key, $this->variable[$key]);
 	}
 
 	public function getPrevious($key)
 	{
-		reset($this->session->gallery);
-		while (key($this->session->gallery) != $key) {
-			$value = next($this->session->gallery);
+		reset($this->variable);
+		while (key($this->variable) != $key) {
+			$value = next($this->variable);
 			if (empty($value)) {
 				return false;
 			}
 		}
-		prev($this->session->gallery);
-		$image = current($this->session->gallery);
+		prev($this->variable);
+		$image = current($this->variable);
 		if ($image) {
-			return new Image(key($this->session->gallery), $image);
+			return new Image(key($this->variable), $image);
 		}
 		return false;
 	}
 
 	public function getNext($key)
 	{
-		reset($this->session->gallery);
-		while (key($this->session->gallery) != $key) {
-			$value = next($this->session->gallery);
+		reset($this->variable);
+		while (key($this->variable) != $key) {
+			$value = next($this->variable);
 			if (empty($value)) {
 				return false;
 			}
 		}
-		next($this->session->gallery);
-		$image = current($this->session->gallery);
+		next($this->variable);
+		$image = current($this->variable);
 		if ($image) {
-			return new Image(key($this->session->gallery), $image);
+			return new Image(key($this->variable), $image);
 		}
 		return false;
 	}
 
 	public function update($key, $image)
 	{
-		$this->session->gallery[$key] = $image;
+		$this->variable[$key] = $image;
 	}
 
 	public function updatePosition($data)
 	{
 		$gallery = [];
 		foreach ($data as $value) {
-			$gallery[$value] = $this->session->gallery[$value];
+			$gallery[$value] = $this->variable[$value];
 		}
-		$this->session->gallery = $gallery;
+		$this->variable = $gallery;
 	}
-
 }
