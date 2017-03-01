@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Gallery\Storage;
 
 use NAttreid\Gallery\Control\Image;
@@ -22,7 +24,7 @@ class NetteDatabaseStorage implements IStorage
 	/** @var array */
 	private $foreignKey;
 
-	public function __construct(Selection $model, $name, $position, $key)
+	public function __construct(Selection $model, string $name, string $position, string $key)
 	{
 		$this->model = $model;
 		$this->name = $name;
@@ -32,12 +34,12 @@ class NetteDatabaseStorage implements IStorage
 
 	/**
 	 * Nastavi cizi klic
-	 * @param string $key
+	 * @param string $keyName
 	 * @param int $value
 	 */
-	public function setForeignKey($key, $value)
+	public function setForeignKey(string $keyName, int $value)
 	{
-		$this->foreignKey = [$key, $value];
+		$this->foreignKey = [$keyName, $value];
 	}
 
 	/**
@@ -49,7 +51,7 @@ class NetteDatabaseStorage implements IStorage
 		return clone $this->model;
 	}
 
-	public function add($image)
+	public function add(string $image)
 	{
 		$data = [
 			$this->name => $image,
@@ -61,7 +63,7 @@ class NetteDatabaseStorage implements IStorage
 		$this->getModel()->insert($data);
 	}
 
-	public function delete($keys = null)
+	public function delete($keys = null): array
 	{
 		$model = $this->getModel();
 		if ($keys != null) {
@@ -74,7 +76,7 @@ class NetteDatabaseStorage implements IStorage
 		return $result;
 	}
 
-	public function fetchAll()
+	public function fetchAll(): array
 	{
 		$model = $this->getModel();
 		if (!empty($this->foreignKey)) {
@@ -88,13 +90,13 @@ class NetteDatabaseStorage implements IStorage
 		return $result;
 	}
 
-	public function get($key)
+	public function get(int $key): Image
 	{
 		$row = $this->getModel()->where($this->key, $key)->fetch();
 		return new Image($row[$this->key], $row[$this->name]);
 	}
 
-	public function getPrevious($key)
+	public function getPrevious(int $key): Image
 	{
 		$position = $this->getModel()->where($this->key, $key)->fetch()[$this->position];
 
@@ -113,7 +115,7 @@ class NetteDatabaseStorage implements IStorage
 		}
 	}
 
-	public function getNext($key)
+	public function getNext(int $key): Image
 	{
 		$position = $this->getModel()->where($this->key, $key)->fetch()[$this->position];
 
@@ -132,14 +134,14 @@ class NetteDatabaseStorage implements IStorage
 		}
 	}
 
-	public function update($key, $image)
+	public function update(int $key, string $image)
 	{
 		$this->getModel()->where($this->key, $key)->update([
 			$this->name => $image,
 		]);
 	}
 
-	public function updatePosition($data)
+	public function updatePosition(array $data)
 	{
 		foreach ($data as $position => $key) {
 			$this->getModel()->where($this->key, $key)->update([

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Gallery\Control;
 
 use NAttreid\Cms\Configurator\Configurator;
@@ -50,7 +52,7 @@ class Gallery extends Control
 	/** @var Request */
 	private $request;
 
-	public function __construct($maxFileSize, $maxFiles, AbstractStorage $imageStorage, Request $request)
+	public function __construct(int $maxFileSize, int $maxFiles, AbstractStorage $imageStorage, Request $request)
 	{
 		parent::__construct();
 		$this->maxFileSize = $maxFileSize;
@@ -73,7 +75,7 @@ class Gallery extends Control
 	 * Vrati Translator
 	 * @return Translator
 	 */
-	public function getTranslator()
+	public function getTranslator(): Translator
 	{
 		return $this->translator;
 	}
@@ -83,7 +85,7 @@ class Gallery extends Control
 	 * @return IStorage
 	 * @throws InvalidArgumentException
 	 */
-	private function getStorage()
+	private function getStorage(): IStorage
 	{
 		if ($this->storage === null) {
 			throw new InvalidArgumentException('Storage is not set');
@@ -99,7 +101,7 @@ class Gallery extends Control
 	 * @param string $key nazev sloupce pro id (pouze pro databazove Storage)
 	 * @internal param string $column
 	 */
-	public function setStorage($storage, $name = 'name', $position = 'position', $key = 'id')
+	public function setStorage($storage, string $name = 'name', string $position = 'position', string $key = 'id')
 	{
 		if ($storage instanceof Selection) {
 			$this->storage = new NetteDatabaseStorage($storage, $name, $position, $key);
@@ -115,7 +117,7 @@ class Gallery extends Control
 	/**
 	 * @return NImage[]
 	 */
-	public function getImages()
+	public function getImages(): NImage
 	{
 		return $this->getStorage()->fetchAll();
 	}
@@ -124,13 +126,14 @@ class Gallery extends Control
 	 * Nastavi namespace
 	 * @param string $namespace
 	 */
-	public function setNamespace($namespace)
+	public function setNamespace(string $namespace)
 	{
 		$this->namespace = $namespace;
 	}
 
 	/**
 	 * Smaze vsechny obrazky z modelu
+	 * @secured
 	 */
 	public function handleDeleteAllImages()
 	{
@@ -149,8 +152,9 @@ class Gallery extends Control
 	/**
 	 * Smaze vybrane obrazky
 	 * @param string $json
+	 * @secured
 	 */
-	public function handleDeleteImages($json)
+	public function handleDeleteImages(string $json)
 	{
 		if ($this->request->isAjax()) {
 			$data = Json::decode($json);
@@ -169,8 +173,9 @@ class Gallery extends Control
 	/**
 	 * Smaze obrazek
 	 * @param int $id
+	 * @secured
 	 */
-	public function handleDeleteImage($id)
+	public function handleDeleteImage(int $id)
 	{
 		if ($this->request->isAjax()) {
 			$result = $this->getStorage()->delete($id);
@@ -185,8 +190,9 @@ class Gallery extends Control
 	/**
 	 * Zobrazi obrazek
 	 * @param int $id
+	 * @secured
 	 */
-	public function handleShowViewer($id)
+	public function handleShowViewer(int $id)
 	{
 		if ($this->request->isAjax()) {
 			$this->template->viewImage = $this->getStorage()->get($id);
@@ -200,8 +206,9 @@ class Gallery extends Control
 	/**
 	 * Zobrazi dalsi obrazek
 	 * @param int $id
+	 * @secured
 	 */
-	public function handleNextImage($id)
+	public function handleNextImage(int $id)
 	{
 		if ($this->request->isAjax()) {
 			$row = $this->getStorage()->getNext($id);
@@ -219,8 +226,9 @@ class Gallery extends Control
 	/**
 	 * Zobrazi predchozi obrazek
 	 * @param int $id
+	 * @secured
 	 */
-	public function handlePreviousImage($id)
+	public function handlePreviousImage(int $id)
 	{
 		if ($this->request->isAjax()) {
 			$row = $this->getStorage()->getPrevious($id);
@@ -238,8 +246,9 @@ class Gallery extends Control
 	/**
 	 * Aktualizuje poradi obrazku
 	 * @param string $json
+	 * @secured
 	 */
-	public function handleUpdatePosition($json)
+	public function handleUpdatePosition(string $json)
 	{
 		if ($this->request->isAjax()) {
 			$data = Json::decode($json);
@@ -252,7 +261,7 @@ class Gallery extends Control
 	 * Zmeni namespace
 	 * @param string $namespace
 	 */
-	public function changeNamespace($namespace)
+	public function changeNamespace(string $namespace)
 	{
 		$this->setNamespace($namespace);
 		$result = $this->getStorage()->fetchAll();
@@ -266,15 +275,15 @@ class Gallery extends Control
 
 	/**
 	 * Nastavi cizi klic
-	 * @param string $key
-	 * @param string $value
+	 * @param string $keykeyName
+	 * @param int $value
 	 */
-	public function setForeignKey($key, $value)
+	public function setForeignKey(string $keykeyName, int $value)
 	{
 		if ($this->storage instanceof NetteDatabaseStorage) {
-			$this->storage->setForeignKey($key, $value);
+			$this->storage->setForeignKey($keykeyName, $value);
 		} elseif ($this->storage instanceof NextrasOrmStorage) {
-			$this->storage->setForeignKey($key, $value);
+			$this->storage->setForeignKey($keykeyName, $value);
 		} else {
 			throw new InvalidArgumentException('Storage is not database');
 		}
@@ -293,7 +302,8 @@ class Gallery extends Control
 	}
 
 	/**
-	 *
+	 * Upload
+	 * @secured
 	 */
 	public function handleUpload()
 	{
@@ -328,6 +338,7 @@ class Gallery extends Control
 
 	/**
 	 * Obnovi galerii
+	 * @secured
 	 */
 	public function handleRefresh()
 	{
@@ -357,7 +368,5 @@ class Gallery extends Control
 
 interface IGalleryFactory
 {
-
-	/** @return Gallery */
-	public function create();
+	public function create(): Gallery;
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Gallery\Storage;
 
 use NAttreid\Gallery\Control\Image;
@@ -18,11 +20,11 @@ class SessionStorage implements IStorage
 
 	/** @var string */
 	private $name;
-	
+
 	/** @var string[] */
 	private $variable;
 
-	public function __construct(SessionSection $session, $name)
+	public function __construct(SessionSection $session, string $name)
 	{
 		$this->session = $session;
 		$this->name = $name;
@@ -37,12 +39,12 @@ class SessionStorage implements IStorage
 		$this->session->remove();
 	}
 
-	public function add($image)
+	public function add(string $image)
 	{
 		$this->variable[] = $image;
 	}
 
-	public function delete($keys = null)
+	public function delete($keys = null): array
 	{
 		$result = [];
 		if (is_array($keys)) {
@@ -60,7 +62,7 @@ class SessionStorage implements IStorage
 		return $result;
 	}
 
-	public function fetchAll()
+	public function fetchAll(): array
 	{
 		$result = [];
 		if (!empty($this->variable)) {
@@ -71,12 +73,12 @@ class SessionStorage implements IStorage
 		return $result;
 	}
 
-	public function get($key)
+	public function get(int $key): Image
 	{
 		return new Image($key, $this->variable[$key]);
 	}
 
-	public function getPrevious($key)
+	public function getPrevious(int $key): Image
 	{
 		reset($this->variable);
 		while (key($this->variable) != $key) {
@@ -93,7 +95,7 @@ class SessionStorage implements IStorage
 		return false;
 	}
 
-	public function getNext($key)
+	public function getNext(int $key): Image
 	{
 		reset($this->variable);
 		while (key($this->variable) != $key) {
@@ -110,12 +112,12 @@ class SessionStorage implements IStorage
 		return false;
 	}
 
-	public function update($key, $image)
+	public function update(int $key, string $image)
 	{
 		$this->variable[$key] = $image;
 	}
 
-	public function updatePosition($data)
+	public function updatePosition(array $data)
 	{
 		$gallery = [];
 		foreach ($data as $value) {

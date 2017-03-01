@@ -1,6 +1,9 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Gallery\Storage;
+
 use NAttreid\Gallery\Control\Image;
 
 /**
@@ -15,51 +18,51 @@ interface IStorage
 	 * @param int $key
 	 * @return Image
 	 */
-	public function get($key);
+	public function get(int $key);
 
 	/**
 	 * Vrati vsechny obrazky
 	 * @return Image[]
 	 */
-	public function fetchAll();
+	public function fetchAll(): array;
 
 	/**
 	 * Aktualizuje pozice
-	 * @param array $data [key,image]
+	 * @param string[] $data [key,image]
 	 */
-	public function updatePosition($data);
+	public function updatePosition(array $data);
 
 	/**
 	 * Vrati predchozi obrazek
 	 * @param int $key
 	 * @return Image
 	 */
-	public function getPrevious($key);
+	public function getPrevious(int $key): image;
 
 	/**
 	 * Vrati nasledujici obrazek
 	 * @param int $key
 	 * @return Image
 	 */
-	public function getNext($key);
+	public function getNext(int $key): Image;
 
 	/**
 	 * Prida obrazek
 	 * @param string $image
 	 */
-	public function add($image);
+	public function add(string $image);
 
 	/**
 	 * Aktualizuje obrazek
 	 * @param int $key
 	 * @param string $image
 	 */
-	public function update($key, $image);
+	public function update(int $key, string $image);
 
 	/**
 	 * Smaze obrazek
-	 * @param int|null $keys ppokud je null smaze vsechny obrazky
+	 * @param int|int[]|null $keys pokud je null smaze vsechny obrazky
 	 * @return string[] seznam smazanych polozek
 	 */
-	public function delete($keys = null);
+	public function delete($keys = null): array;
 }

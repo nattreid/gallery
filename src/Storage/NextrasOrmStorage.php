@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Gallery\Storage;
 
 use NAttreid\Gallery\Control\Image;
@@ -24,7 +26,7 @@ class NextrasOrmStorage implements IStorage
 	/** @var array */
 	private $foreignKey;
 
-	public function __construct(Repository $repository, $name, $position, $key)
+	public function __construct(Repository $repository, string $name, string $position, string $key)
 	{
 		$this->repository = $repository;
 		$this->name = $name;
@@ -34,15 +36,15 @@ class NextrasOrmStorage implements IStorage
 
 	/**
 	 * Nastavi cizi klic
-	 * @param string $key
+	 * @param string $keyName
 	 * @param int $value
 	 */
-	public function setForeignKey($key, $value)
+	public function setForeignKey(string $keyName, int $value)
 	{
-		$this->foreignKey = [$key, $value];
+		$this->foreignKey = [$keyName, $value];
 	}
 
-	public function add($image)
+	public function add(string $image)
 	{
 		$entityClass = $this->repository->getEntityClassName([]);
 		/* @var $entity IEntity */
@@ -55,7 +57,7 @@ class NextrasOrmStorage implements IStorage
 		$this->repository->persistAndFlush($entity);
 	}
 
-	public function delete($keys = null)
+	public function delete($keys = null): array
 	{
 		$rows = $this->repository->findAll();
 		if (!empty($this->foreignKey)) {
@@ -73,7 +75,7 @@ class NextrasOrmStorage implements IStorage
 		return $result;
 	}
 
-	public function fetchAll()
+	public function fetchAll(): array
 	{
 		$rows = $this->repository->findAll();
 		if (!empty($this->foreignKey)) {
@@ -88,13 +90,13 @@ class NextrasOrmStorage implements IStorage
 		return $result;
 	}
 
-	public function get($key)
+	public function get(int $key): Image
 	{
 		$row = $this->repository->getBy([$this->key => $key]);
 		return new Image($row->{$this->key}, $row->{$this->name});
 	}
 
-	public function getPrevious($key)
+	public function getPrevious(int $key): Image
 	{
 		$position = $this->repository->getBy([$this->key => $key])->{$this->position};
 		$rows = $this->repository->findAll();
@@ -112,7 +114,7 @@ class NextrasOrmStorage implements IStorage
 		}
 	}
 
-	public function getNext($key)
+	public function getNext(int $key): Image
 	{
 		$position = $this->repository->getBy([$this->key => $key])->{$this->position};
 		$rows = $this->repository->findAll();
@@ -129,14 +131,14 @@ class NextrasOrmStorage implements IStorage
 		}
 	}
 
-	public function update($key, $image)
+	public function update(int $key, string $image)
 	{
 		$entity = $this->repository->getBy([$this->key => $key]);
 		$entity->{$this->name} = $image;
 		$this->repository->persistAndFlush($entity);
 	}
 
-	public function updatePosition($data)
+	public function updatePosition(array $data)
 	{
 		foreach ($data as $position => $key) {
 			$entity = $this->repository->getBy([$this->key => $key]);
