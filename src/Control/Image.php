@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Gallery\Control;
 
 use Nette\SmartObject;
@@ -22,18 +24,24 @@ class Image
 	/** @var string */
 	private $name;
 
-	public function __construct($key, $name)
+	public function __construct(int $key, string $name)
 	{
 		$this->key = $key;
 		$this->name = $name;
 	}
 
-	public function getKey()
+	/**
+	 * @return int
+	 */
+	protected function getKey(): int
 	{
 		return $this->key;
 	}
 
-	public function getName()
+	/**
+	 * @return string
+	 */
+	protected function getName(): string
 	{
 		return $this->name;
 	}

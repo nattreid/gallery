@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace NAttreid\Gallery\Storage;
 
 use NAttreid\Cms\Configurator\Configurator;
@@ -22,20 +24,20 @@ class ConfiguratorStorage implements IStorage
 	/** @var string[] */
 	private $images;
 
-	public function __construct(Configurator $configurator, $name)
+	public function __construct(Configurator $configurator, string $name)
 	{
 		$this->configurator = $configurator;
 		$this->name = $name;
 		$this->images = $configurator->__get($this->name);
 	}
 
-	public function add($image)
+	public function add(string $image)
 	{
 		$this->images[] = $image;
 		$this->configurator->__set($this->name, $this->images);
 	}
 
-	public function delete($keys = null)
+	public function delete($keys = null): array
 	{
 		$result = [];
 		if (is_array($keys)) {
@@ -54,7 +56,7 @@ class ConfiguratorStorage implements IStorage
 		return $result;
 	}
 
-	public function fetchAll()
+	public function fetchAll(): array
 	{
 		$result = [];
 		if (!empty($this->images)) {
@@ -65,12 +67,12 @@ class ConfiguratorStorage implements IStorage
 		return $result;
 	}
 
-	public function get($key)
+	public function get(int $key): Image
 	{
 		return new Image($key, $this->images[$key]);
 	}
 
-	public function getPrevious($key)
+	public function getPrevious(int $key): Image
 	{
 		reset($this->images);
 		while (key($this->images) != $key) {
@@ -87,7 +89,7 @@ class ConfiguratorStorage implements IStorage
 		return false;
 	}
 
-	public function getNext($key)
+	public function getNext(int $key): Image
 	{
 		reset($this->images);
 		while (key($this->images) != $key) {
@@ -104,13 +106,13 @@ class ConfiguratorStorage implements IStorage
 		return false;
 	}
 
-	public function update($key, $image)
+	public function update(int $key, string $image)
 	{
 		$this->images[$key] = $image;
 		$this->configurator->__set($this->name, $this->images);
 	}
 
-	public function updatePosition($data)
+	public function updatePosition(array $data)
 	{
 		$gallery = [];
 		foreach ($data as $value) {
