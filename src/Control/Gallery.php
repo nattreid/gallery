@@ -117,7 +117,7 @@ class Gallery extends Control
 	/**
 	 * @return NImage[]
 	 */
-	public function getImages(): NImage
+	public function getImages(): array
 	{
 		return $this->getStorage()->fetchAll();
 	}
