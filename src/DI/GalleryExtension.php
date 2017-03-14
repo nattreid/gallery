@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace NAttreid\Gallery\DI;
 
-use NAttreid\Cms\LoaderFactory;
+use NAttreid\Cms\Factories\LoaderFactory;
 use NAttreid\Gallery\Control\Gallery;
 use NAttreid\Gallery\Control\IGalleryFactory;
 use Nette\DI\CompilerExtension;
