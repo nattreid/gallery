@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Gallery\DI;
 
@@ -24,7 +24,7 @@ class GalleryExtension extends CompilerExtension
 		'maxFiles' => 20,
 	];
 
-	public function loadConfiguration()
+	public function loadConfiguration(): void
 	{
 		$config = $this->validateConfig($this->defaults, $this->getConfig());
 		$builder = $this->getContainerBuilder();
@@ -35,7 +35,7 @@ class GalleryExtension extends CompilerExtension
 			->setArguments([$config['maxFileSize'], $config['maxFiles']]);
 	}
 
-	public function beforeCompile()
+	public function beforeCompile(): void
 	{
 		$path = __DIR__ . '/../../assets/';
 		$builder = $this->getContainerBuilder();
@@ -43,7 +43,7 @@ class GalleryExtension extends CompilerExtension
 		try {
 			$builder->getDefinition($loader)
 				->addSetup('addFile', [$path . 'css/gallery.boundled.min.css'])
-				->addSetup('addFile', [$path . 'js/gallery.boundled.min.js']);
+				->addSetup('addFile', [$path . 'js/gallery.boundled.js']);
 		} catch (MissingServiceException $ex) {
 
 		}

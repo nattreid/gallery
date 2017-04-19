@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Gallery\Storage;
 
@@ -51,7 +51,7 @@ class NetteDatabaseStorage implements IStorage
 		return clone $this->model;
 	}
 
-	public function add(string $image)
+	public function add(string $image): void
 	{
 		$data = [
 			$this->name => $image,
@@ -96,7 +96,7 @@ class NetteDatabaseStorage implements IStorage
 		return new Image($row[$this->key], $row[$this->name]);
 	}
 
-	public function getPrevious(int $key): Image
+	public function getPrevious(int $key): ?Image
 	{
 		$position = $this->getModel()->where($this->key, $key)->fetch()[$this->position];
 
@@ -111,11 +111,11 @@ class NetteDatabaseStorage implements IStorage
 		if ($row) {
 			return new Image($row[$this->key], $row[$this->name]);
 		} else {
-			return false;
+			return null;
 		}
 	}
 
-	public function getNext(int $key): Image
+	public function getNext(int $key): ?Image
 	{
 		$position = $this->getModel()->where($this->key, $key)->fetch()[$this->position];
 
@@ -130,18 +130,18 @@ class NetteDatabaseStorage implements IStorage
 		if ($row) {
 			return new Image($row[$this->key], $row[$this->name]);
 		} else {
-			return false;
+			return null;
 		}
 	}
 
-	public function update(int $key, string $image)
+	public function update(int $key, string $image): void
 	{
 		$this->getModel()->where($this->key, $key)->update([
 			$this->name => $image,
 		]);
 	}
 
-	public function updatePosition(array $data)
+	public function updatePosition(array $data): void
 	{
 		foreach ($data as $position => $key) {
 			$this->getModel()->where($this->key, $key)->update([

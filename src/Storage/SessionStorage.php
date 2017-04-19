@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Gallery\Storage;
 
@@ -39,7 +39,7 @@ class SessionStorage implements IStorage
 		$this->session->remove();
 	}
 
-	public function add(string $image)
+	public function add(string $image): void
 	{
 		$this->variable[] = $image;
 	}
@@ -78,13 +78,13 @@ class SessionStorage implements IStorage
 		return new Image($key, $this->variable[$key]);
 	}
 
-	public function getPrevious(int $key): Image
+	public function getPrevious(int $key): ?Image
 	{
 		reset($this->variable);
 		while (key($this->variable) != $key) {
 			$value = next($this->variable);
 			if (empty($value)) {
-				return false;
+				return null;
 			}
 		}
 		prev($this->variable);
@@ -92,16 +92,16 @@ class SessionStorage implements IStorage
 		if ($image) {
 			return new Image(key($this->variable), $image);
 		}
-		return false;
+		return null;
 	}
 
-	public function getNext(int $key): Image
+	public function getNext(int $key): ?Image
 	{
 		reset($this->variable);
 		while (key($this->variable) != $key) {
 			$value = next($this->variable);
 			if (empty($value)) {
-				return false;
+				return null;
 			}
 		}
 		next($this->variable);
@@ -109,15 +109,15 @@ class SessionStorage implements IStorage
 		if ($image) {
 			return new Image(key($this->variable), $image);
 		}
-		return false;
+		return null;
 	}
 
-	public function update(int $key, string $image)
+	public function update(int $key, string $image): void
 	{
 		$this->variable[$key] = $image;
 	}
 
-	public function updatePosition(array $data)
+	public function updatePosition(array $data): void
 	{
 		$gallery = [];
 		foreach ($data as $value) {

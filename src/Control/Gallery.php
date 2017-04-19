@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace NAttreid\Gallery\Control;
 
@@ -66,7 +66,7 @@ class Gallery extends Control
 	 * Nastavi translator
 	 * @param ITranslator $translator
 	 */
-	public function setTranslator(ITranslator $translator)
+	public function setTranslator(ITranslator $translator): void
 	{
 		$this->translator = $translator;
 	}
@@ -101,7 +101,7 @@ class Gallery extends Control
 	 * @param string $key nazev sloupce pro id (pouze pro databazove Storage)
 	 * @internal param string $column
 	 */
-	public function setStorage($storage, string $name = 'name', string $position = 'position', string $key = 'id')
+	public function setStorage($storage, string $name = 'name', string $position = 'position', string $key = 'id'): void
 	{
 		if ($storage instanceof Selection) {
 			$this->storage = new NetteDatabaseStorage($storage, $name, $position, $key);
@@ -126,7 +126,7 @@ class Gallery extends Control
 	 * Nastavi namespace
 	 * @param string $namespace
 	 */
-	public function setNamespace(string $namespace)
+	public function setNamespace(string $namespace): void
 	{
 		$this->namespace = $namespace;
 	}
@@ -135,7 +135,7 @@ class Gallery extends Control
 	 * Smaze vsechny obrazky z modelu
 	 * @secured
 	 */
-	public function handleDeleteAllImages()
+	public function handleDeleteAllImages(): void
 	{
 		if ($this->request->isAjax()) {
 			$result = $this->getStorage()->delete();
@@ -154,7 +154,7 @@ class Gallery extends Control
 	 * @param string $json
 	 * @secured
 	 */
-	public function handleDeleteImages(string $json)
+	public function handleDeleteImages(string $json): void
 	{
 		if ($this->request->isAjax()) {
 			$data = Json::decode($json);
@@ -175,7 +175,7 @@ class Gallery extends Control
 	 * @param int $id
 	 * @secured
 	 */
-	public function handleDeleteImage(int $id)
+	public function handleDeleteImage(int $id): void
 	{
 		if ($this->request->isAjax()) {
 			$result = $this->getStorage()->delete($id);
@@ -192,7 +192,7 @@ class Gallery extends Control
 	 * @param int $id
 	 * @secured
 	 */
-	public function handleShowViewer(int $id)
+	public function handleShowViewer(int $id): void
 	{
 		if ($this->request->isAjax()) {
 			$this->template->viewImage = $this->getStorage()->get($id);
@@ -208,7 +208,7 @@ class Gallery extends Control
 	 * @param int $id
 	 * @secured
 	 */
-	public function handleNextImage(int $id)
+	public function handleNextImage(int $id): void
 	{
 		if ($this->request->isAjax()) {
 			$row = $this->getStorage()->getNext($id);
@@ -228,7 +228,7 @@ class Gallery extends Control
 	 * @param int $id
 	 * @secured
 	 */
-	public function handlePreviousImage(int $id)
+	public function handlePreviousImage(int $id): void
 	{
 		if ($this->request->isAjax()) {
 			$row = $this->getStorage()->getPrevious($id);
@@ -248,7 +248,7 @@ class Gallery extends Control
 	 * @param string $json
 	 * @secured
 	 */
-	public function handleUpdatePosition(string $json)
+	public function handleUpdatePosition(string $json): void
 	{
 		if ($this->request->isAjax()) {
 			$data = Json::decode($json);
@@ -261,7 +261,7 @@ class Gallery extends Control
 	 * Zmeni namespace
 	 * @param string $namespace
 	 */
-	public function changeNamespace(string $namespace)
+	public function changeNamespace(string $namespace): void
 	{
 		$this->setNamespace($namespace);
 		$result = $this->getStorage()->fetchAll();
@@ -278,7 +278,7 @@ class Gallery extends Control
 	 * @param string $keykeyName
 	 * @param int $value
 	 */
-	public function setForeignKey(string $keykeyName, int $value)
+	public function setForeignKey(string $keykeyName, int $value): void
 	{
 		if ($this->storage instanceof NetteDatabaseStorage) {
 			$this->storage->setForeignKey($keykeyName, $value);
@@ -292,7 +292,7 @@ class Gallery extends Control
 	/**
 	 * Smaze temp adresar
 	 */
-	public function clearTemp()
+	public function clearTemp(): void
 	{
 		if ($this->storage instanceof SessionStorage) {
 			$this->storage->clearTemp();
@@ -305,7 +305,7 @@ class Gallery extends Control
 	 * Upload
 	 * @secured
 	 */
-	public function handleUpload()
+	public function handleUpload(): void
 	{
 		if ($this->request->isAjax()) {
 			$file = $this->request->getFile('file');
@@ -340,7 +340,7 @@ class Gallery extends Control
 	 * Obnovi galerii
 	 * @secured
 	 */
-	public function handleRefresh()
+	public function handleRefresh(): void
 	{
 		if ($this->request->isAjax()) {
 			$this->redrawControl('gallery');
@@ -349,7 +349,7 @@ class Gallery extends Control
 		}
 	}
 
-	public function render()
+	public function render(): void
 	{
 		$this->template->addFilter('translate', [$this->translator, 'translate']);
 
