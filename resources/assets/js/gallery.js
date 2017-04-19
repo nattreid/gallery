@@ -79,7 +79,7 @@
             if (this.loaded) {
                 resizeImage();
             } else {
-                img.load(function () {
+                img.on('load', function () {
                     window.Gallery.loaded = true;
                     resizeImage();
                 });
