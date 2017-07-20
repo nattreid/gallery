@@ -13,6 +13,7 @@ use NAttreid\Gallery\Storage\IStorage;
 use NAttreid\Gallery\Storage\NetteDatabaseStorage;
 use NAttreid\Gallery\Storage\NextrasOrmStorage;
 use NAttreid\Gallery\Storage\SessionStorage;
+use NAttreid\ImageStorage\ImageStorage;
 use NAttreid\Orm\Repository;
 use Nette\Application\UI\Control;
 use Nette\Database\Table\Selection;
@@ -22,7 +23,6 @@ use Nette\InvalidArgumentException;
 use Nette\Localization\ITranslator;
 use Nette\Utils\Image;
 use Nette\Utils\Json;
-use WebChemistry\Images\AbstractStorage;
 
 /**
  * Galerie
@@ -31,7 +31,7 @@ use WebChemistry\Images\AbstractStorage;
  */
 class Gallery extends Control
 {
-	/** @var AbstractStorage */
+	/** @var ImageStorage */
 	private $imageStorage;
 
 	/** @var IStorage */
@@ -52,7 +52,7 @@ class Gallery extends Control
 	/** @var Request */
 	private $request;
 
-	public function __construct(int $maxFileSize, int $maxFiles, AbstractStorage $imageStorage, Request $request)
+	public function __construct(int $maxFileSize, int $maxFiles, ImageStorage $imageStorage, Request $request)
 	{
 		parent::__construct();
 		$this->maxFileSize = $maxFileSize;
@@ -266,10 +266,11 @@ class Gallery extends Control
 		$this->setNamespace($namespace);
 		$result = $this->getStorage()->fetchAll();
 		foreach ($result as $row) {
-			$image = $this->imageStorage->get($row->name);
-			$name = $this->imageStorage->saveImage(Image::fromFile($image->getAbsolutePath()), $image->getName(), $this->namespace);
-			$this->getStorage()->update($row->key, $name);
-			$this->imageStorage->delete($row->name);
+			$resource = $this->imageStorage->getResource($row->name);
+			$resource->setNamespace($this->namespace);
+			$this->imageStorage->save($resource);
+
+			$this->getStorage()->update($row->key, $resource->getIdentifier());
 		}
 	}
 
@@ -330,8 +331,11 @@ class Gallery extends Control
 				exit($this->translator->translate('gallery.error.' . $msg));
 			}
 
-			$image = $this->imageStorage->saveImage(Image::fromFile($file->temporaryFile), $file->sanitizedName, $this->namespace);
-			$this->getStorage()->add($image);
+			$resource=$this->imageStorage->createResource($file->temporaryFile,$file->sanitizedName);
+			$resource->setNamespace($this->namespace);
+			$this->imageStorage->save($resource);
+
+			$this->getStorage()->add($resource->getIdentifier());
 		}
 		$this->presenter->terminate();
 	}
