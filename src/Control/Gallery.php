@@ -15,6 +15,7 @@ use NAttreid\Gallery\Storage\NextrasOrmStorage;
 use NAttreid\Gallery\Storage\SessionStorage;
 use NAttreid\ImageStorage\ImageStorage;
 use NAttreid\Orm\Repository;
+use Nette\Application\AbortException;
 use Nette\Application\UI\Control;
 use Nette\Database\Table\Selection;
 use Nette\Http\Request;
@@ -134,6 +135,7 @@ class Gallery extends Control
 	/**
 	 * Smaze vsechny obrazky z modelu
 	 * @secured
+	 * @throws AbortException
 	 */
 	public function handleDeleteAllImages(): void
 	{
@@ -145,7 +147,7 @@ class Gallery extends Control
 
 			$this->redrawControl('gallery');
 		} else {
-			exit;
+			throw new AbortException;
 		}
 	}
 
@@ -153,6 +155,8 @@ class Gallery extends Control
 	 * Smaze vybrane obrazky
 	 * @param string $json
 	 * @secured
+	 * @throws \Nette\Utils\JsonException
+	 * @throws AbortException
 	 */
 	public function handleDeleteImages(string $json): void
 	{
@@ -166,7 +170,7 @@ class Gallery extends Control
 
 			$this->redrawControl('gallery');
 		} else {
-			$this->presenter->terminate();
+			throw new AbortException;
 		}
 	}
 
@@ -174,6 +178,7 @@ class Gallery extends Control
 	 * Smaze obrazek
 	 * @param int $id
 	 * @secured
+	 * @throws AbortException
 	 */
 	public function handleDeleteImage(int $id): void
 	{
@@ -183,7 +188,7 @@ class Gallery extends Control
 
 			$this->redrawControl('gallery');
 		} else {
-			$this->presenter->terminate();
+			throw new AbortException;
 		}
 	}
 
@@ -191,6 +196,7 @@ class Gallery extends Control
 	 * Zobrazi obrazek
 	 * @param int $id
 	 * @secured
+	 * @throws AbortException
 	 */
 	public function handleShowViewer(int $id): void
 	{
@@ -199,7 +205,7 @@ class Gallery extends Control
 
 			$this->redrawControl('viewer');
 		} else {
-			$this->presenter->terminate();
+			throw new AbortException;
 		}
 	}
 
@@ -207,6 +213,7 @@ class Gallery extends Control
 	 * Zobrazi dalsi obrazek
 	 * @param int $id
 	 * @secured
+	 * @throws AbortException
 	 */
 	public function handleNextImage(int $id): void
 	{
@@ -216,10 +223,10 @@ class Gallery extends Control
 				$this->template->viewImage = $row;
 				$this->redrawControl('image');
 			} else {
-				$this->presenter->terminate();
+				throw new AbortException;
 			}
 		} else {
-			$this->presenter->terminate();
+			throw new AbortException;
 		}
 	}
 
@@ -227,6 +234,7 @@ class Gallery extends Control
 	 * Zobrazi predchozi obrazek
 	 * @param int $id
 	 * @secured
+	 * @throws AbortException
 	 */
 	public function handlePreviousImage(int $id): void
 	{
@@ -236,10 +244,10 @@ class Gallery extends Control
 				$this->template->viewImage = $row;
 				$this->redrawControl('image');
 			} else {
-				$this->presenter->terminate();
+				throw new AbortException;
 			}
 		} else {
-			$this->presenter->terminate();
+			throw new AbortException;
 		}
 	}
 
@@ -247,6 +255,8 @@ class Gallery extends Control
 	 * Aktualizuje poradi obrazku
 	 * @param string $json
 	 * @secured
+	 * @throws \Nette\Utils\JsonException
+	 * @throws AbortException
 	 */
 	public function handleUpdatePosition(string $json): void
 	{
@@ -254,7 +264,7 @@ class Gallery extends Control
 			$data = Json::decode($json);
 			$this->getStorage()->updatePosition($data);
 		}
-		$this->presenter->terminate();
+		throw new AbortException;
 	}
 
 	/**
@@ -305,6 +315,7 @@ class Gallery extends Control
 	/**
 	 * Upload
 	 * @secured
+	 * @throws AbortException
 	 */
 	public function handleUpload(): void
 	{
@@ -337,19 +348,20 @@ class Gallery extends Control
 
 			$this->getStorage()->add($resource->getIdentifier());
 		}
-		$this->presenter->terminate();
+		throw new AbortException;
 	}
 
 	/**
 	 * Obnovi galerii
 	 * @secured
+	 * @throws AbortException
 	 */
 	public function handleRefresh(): void
 	{
 		if ($this->request->isAjax()) {
 			$this->redrawControl('gallery');
 		} else {
-			$this->presenter->terminate();
+			throw new AbortException;
 		}
 	}
 
