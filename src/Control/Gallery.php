@@ -286,15 +286,15 @@ class Gallery extends Control
 
 	/**
 	 * Nastavi cizi klic
-	 * @param string $keykeyName
+	 * @param string $keyName
 	 * @param int $value
 	 */
-	public function setForeignKey(string $keykeyName, int $value): void
+	public function setForeignKey(string $keyName, int $value): void
 	{
 		if ($this->storage instanceof NetteDatabaseStorage) {
-			$this->storage->setForeignKey($keykeyName, $value);
+			$this->storage->setForeignKey($keyName, $value);
 		} elseif ($this->storage instanceof NextrasOrmStorage) {
-			$this->storage->setForeignKey($keykeyName, $value);
+			$this->storage->setForeignKey($keyName, $value);
 		} else {
 			throw new InvalidArgumentException('Storage is not database');
 		}
