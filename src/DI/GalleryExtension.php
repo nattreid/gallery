@@ -24,6 +24,16 @@ class GalleryExtension extends CompilerExtension
 		'maxFiles' => 20,
 	];
 
+	public function setMaxFiles(int $maxFiles): void
+	{
+		$this->defaults['maxFiles'] = $maxFiles;
+	}
+
+	public function setMaxFileSize(int $maxFileSize): void
+	{
+		$this->defaults['maxFileSize'] = $maxFileSize;
+	}
+
 	public function loadConfiguration(): void
 	{
 		$config = $this->validateConfig($this->defaults, $this->getConfig());
