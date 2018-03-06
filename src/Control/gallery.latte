@@ -3,16 +3,16 @@
         <form
                 id="{$componentId}Dropzone"
                 action="{link upload}" class="dropzone"
-                data-dictdefaultmessage="{_gallery.dictDefaultMessage}"
-                data-dictfallbackmessage="{_gallery.dictFallbackMessage}"
-                data-dictfallbacktext="{_gallery.dictFallbackText}"
-                data-dictinvalidfiletype="{_gallery.dictInvalidFileType}"
-                data-dictfiletoobig="{_gallery.dictFileTooBig}"
-                data-dictresponseerror="{_gallery.dictResponseError}"
-                data-dictcancelupload="{_gallery.dictCancelUpload}"
-                data-dictcanceluploadconfirmation="{_gallery.dictCancelUploadConfirmation}"
-                data-dictremovefile="{_gallery.dictRemoveFile}"
-                data-dictmaxfilesexceeded="{_gallery.dictMaxFilesExceeded}"
+                data-dictdefaultmessage="{_'nattreid.gallery.dictDefaultMessage'}"
+                data-dictfallbackmessage="{_'nattreid.gallery.dictFallbackMessage'}"
+                data-dictfallbacktext="{_'nattreid.gallery.dictFallbackText'}"
+                data-dictinvalidfiletype="{_'nattreid.gallery.dictInvalidFileType'}"
+                data-dictfiletoobig="{_'nattreid.gallery.dictFileTooBig'}"
+                data-dictresponseerror="{_'nattreid.gallery.dictResponseError'}"
+                data-dictcancelupload="{_'nattreid.gallery.dictCancelUpload'}"
+                data-dictcanceluploadconfirmation="{_'nattreid.gallery.dictCancelUploadConfirmation'}"
+                data-dictremovefile="{_'nattreid.gallery.dictRemoveFile'}"
+                data-dictmaxfilesexceeded="{_'nattreid.gallery.dictMaxFilesExceeded'}"
                 data-max-file-size="{$maxFileSize}"
                 data-max-files="{$maxFiles}"
                 data-refresh-url="{link refresh}"
@@ -46,18 +46,18 @@
                 </div>
                 <div class="buttons">
                     <a class="ajax fa fa-search" data-ajax-off="history" n:href="showViewer! $image->key"
-                       title="{_'gallery.show'}"></a>
+                       title="{_'nattreid.gallery.show'}"></a>
                     <input type="checkbox" data-id="{$image->key}"/>
                     <a class="ajax fa fa-trash" data-ajax-off="history" n:href="deleteImage! $image->key"
-                       title="{_'gallery.deleteImage'}"></a>
+                       title="{_'nattreid.gallery.deleteImage'}"></a>
                 </div>
             </li>
         </ul>
         <div class="buttons">
             <a class="btn btn-danger deleteChoosedImage"
-               data-url="{link deleteImages! 'jsonArgument'}">{_'gallery.deleteImages'}</a>
+               data-url="{link deleteImages! 'jsonArgument'}">{_'nattreid.gallery.deleteImages'}</a>
             <a class="btn btn-danger ajax"
-               data-ajax-off="history" n:href="deleteAllImages!">{_'gallery.deleteAllImages'}</a>
+               data-ajax-off="history" n:href="deleteAllImages!">{_'nattreid.gallery.deleteAllImages'}</a>
         </div>
     </div>
     {if $presenter->isAjax()}

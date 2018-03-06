@@ -339,7 +339,7 @@ class Gallery extends Control
 						$msg = 'failedUpload';
 						break;
 				}
-				exit($this->translator->translate('gallery.error.' . $msg));
+				exit($this->translator->translate('nattreid.gallery.error.' . $msg));
 			}
 
 			$resource=$this->imageStorage->createResource($file->temporaryFile,$file->sanitizedName);
