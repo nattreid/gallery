@@ -1856,27 +1856,29 @@
     };
 
     $(document).ready(function () {
-        var form = $('.componentGallery .uploader form');
-        form.dropzone({
-            dictDefaultMessage: form.data('dictdefaultmessage'),
-            dictMaxFilesExceeded: form.data('dictmaxfilesexceeded'),
-            dictFallbackMessage: form.data('dictfallbackmessage'),
-            dictFallbackText: form.data('dictfallbacktext'),
-            dictInvalidFileType: form.data('dictinvalidfiletype'),
-            dictFileTooBig: form.data('dictfiletoobig'),
-            dictResponseError: form.data('dictresponseerror'),
-            dictCancelUpload: form.data('dictcancelupload'),
-            dictCancelUploadConfirmation: form.data('dictcanceluploadconfirmation'),
-            dictRemoveFile: form.data('dictremovefile'),
-            dictMaxFilesExceeded: form.data('dictmaxfilesexceeded'),
-            acceptedFiles: 'image/jpeg,image/png,image/gif',
-            maxFileSize: form.data('max-file-size'),
-            maxFiles: form.data('max-files'),
-            init: function () {
-                this.on("queuecomplete", function () {
-                    $.nette.ajax(form.data('refresh-url'))
-                });
-            }
+        $('.componentGallery .uploader form').each(function () {
+            var form = $(this);
+            form.dropzone({
+                dictDefaultMessage: form.data('dictdefaultmessage'),
+                dictMaxFilesExceeded: form.data('dictmaxfilesexceeded'),
+                dictFallbackMessage: form.data('dictfallbackmessage'),
+                dictFallbackText: form.data('dictfallbacktext'),
+                dictInvalidFileType: form.data('dictinvalidfiletype'),
+                dictFileTooBig: form.data('dictfiletoobig'),
+                dictResponseError: form.data('dictresponseerror'),
+                dictCancelUpload: form.data('dictcancelupload'),
+                dictCancelUploadConfirmation: form.data('dictcanceluploadconfirmation'),
+                dictRemoveFile: form.data('dictremovefile'),
+                dictMaxFilesExceeded: form.data('dictmaxfilesexceeded'),
+                acceptedFiles: 'image/jpeg,image/png,image/gif',
+                maxFileSize: form.data('max-file-size'),
+                maxFiles: form.data('max-files'),
+                init: function () {
+                    this.on("queuecomplete", function () {
+                        $.nette.ajax(form.data('refresh-url'))
+                    });
+                }
+            });
         });
 
         window.Gallery.sortable();
