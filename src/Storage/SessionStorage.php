@@ -49,7 +49,7 @@ class SessionStorage implements IStorage
 		$result = [];
 		if (is_array($keys)) {
 			foreach ($keys as $value) {
-				$result[] = $value;
+				$result[] = $this->variable[$value];
 				unset($this->variable[$value]);
 			}
 		} elseif ($keys === null) {

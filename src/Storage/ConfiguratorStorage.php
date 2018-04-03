@@ -42,7 +42,7 @@ class ConfiguratorStorage implements IStorage
 		$result = [];
 		if (is_array($keys)) {
 			foreach ($keys as $value) {
-				$result[] = $value;
+				$result[] = $this->images[$value];
 				unset($this->images[$value]);
 			}
 		} elseif ($keys === null) {
