@@ -476,7 +476,7 @@
   color: #fff;
   text-shadow: 0 0 2px #000;
   font-size: 40px;
-  opacity: .7;
+  opacity: 0.7;
   text-decoration: none;
   cursor: pointer;
 }
@@ -531,7 +531,7 @@
   color: #666;
   text-decoration: none;
   font-size: 16px;
-  opacity: .7;
+  opacity: 0.7;
   margin: 5px;
 }
 .componentGallery .gallery ul li .buttons a:hover {

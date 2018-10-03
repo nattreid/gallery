@@ -20,7 +20,7 @@
             placeholder: 'ui-state-highlight',
             opacity: 0.6,
             update: function (event, ui) {
-                var data = new Array;
+                var data = [];
                 $(this).find('img').each(function (index) {
                     data.push($(this).data('id'));
                 });
@@ -51,41 +51,41 @@
         if (this.container) {
             var img = this.container.find('img');
 
-            function resizeImage() {
-                var limit = 30;
-
-                img.removeAttr('style');
-                var width = img.width();
-                var height = img.height();
-
-                var windowWidth = window.innerWidth - limit;
-                var windowHeight = window.innerHeight - limit;
-
-                if (width > windowWidth) {
-                    height = height / (width / windowWidth);
-                    width = windowWidth;
-                }
-                if (height > windowHeight) {
-                    width = width / (height / windowHeight);
-                    height = windowHeight;
-                }
-
-                img.width(width);
-                img.height(height);
-
-                window.Gallery.container.centerFixed();
-            }
-
             if (this.loaded) {
-                resizeImage();
+                resizeImage(img);
             } else {
                 img.on('load', function () {
                     window.Gallery.loaded = true;
-                    resizeImage();
+                    resizeImage(img);
                 });
             }
         }
     };
+
+    function resizeImage(img) {
+        var limit = 30;
+
+        img.removeAttr('style');
+        var width = img.width();
+        var height = img.height();
+
+        var windowWidth = window.innerWidth - limit;
+        var windowHeight = window.innerHeight - limit;
+
+        if (width > windowWidth) {
+            height = height / (width / windowWidth);
+            width = windowWidth;
+        }
+        if (height > windowHeight) {
+            width = width / (height / windowHeight);
+            height = windowHeight;
+        }
+
+        img.width(width);
+        img.height(height);
+
+        window.Gallery.container.centerFixed();
+    }
 
     $(document).ready(function () {
         $('.componentGallery .uploader form').each(function () {
@@ -101,7 +101,6 @@
                 dictCancelUpload: form.data('dictcancelupload'),
                 dictCancelUploadConfirmation: form.data('dictcanceluploadconfirmation'),
                 dictRemoveFile: form.data('dictremovefile'),
-                dictMaxFilesExceeded: form.data('dictmaxfilesexceeded'),
                 acceptedFiles: 'image/jpeg,image/png,image/gif',
                 maxFileSize: form.data('max-file-size'),
                 maxFiles: form.data('max-files'),
@@ -116,7 +115,7 @@
         window.Gallery.sortable();
 
         $(document).on('click', '.componentGallery .buttons .deleteChoosedImage', function () {
-            var data = new Array;
+            var data = [];
             var link = $(this).data('url');
             $('.componentGallery .gallery ul input[type="checkbox"]:checked').each(function () {
                 data.push($(this).data('id'));

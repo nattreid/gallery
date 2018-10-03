@@ -10,7 +10,7 @@ var paths = {
     'dev': {
         'less': './resources/assets/less/',
         'js': './resources/assets/js/',
-        'vendor': './resources/assets/vendor/'
+        'vendor': './node_modules/'
     },
     'production': {
         'js': './assets/js',
@@ -101,11 +101,11 @@ gulp.task('cssBoundledMin', function () {
 // *****************************************************************************
 
 gulp.task('watch', function () {
-    gulp.watch(paths.dev.js + '*.js', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin']);
-    gulp.watch(paths.dev.vendor + '*.js', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin']);
+    gulp.watch(paths.dev.js + '*.js', gulp.series('js', 'jsBoundled', 'jsMin', 'jsBoundledMin'));
+    gulp.watch(paths.dev.vendor + '*.js', gulp.series('js', 'jsBoundled', 'jsMin', 'jsBoundledMin'));
 
-    gulp.watch(paths.dev.less + '*.less', ['css', 'cssBoundled', 'cssMin', 'cssBoundledMin']);
-    gulp.watch(paths.dev.vendor + '*.css', ['css', 'cssBoundled', 'cssMin', 'cssBoundledMin']);
+    gulp.watch(paths.dev.less + '*.less', gulp.series('css', 'cssBoundled', 'cssMin', 'cssBoundledMin'));
+    gulp.watch(paths.dev.vendor + '*.css', gulp.series('css', 'cssBoundled', 'cssMin', 'cssBoundledMin'));
 });
 
-gulp.task('default', ['js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'css', 'cssBoundled', 'cssMin', 'cssBoundledMin', 'watch']);
+gulp.task('default', gulp.series('js', 'jsBoundled', 'jsMin', 'jsBoundledMin', 'css', 'cssBoundled', 'cssMin', 'cssBoundledMin', 'watch'));
