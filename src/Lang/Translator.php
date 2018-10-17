@@ -14,6 +14,7 @@ use Nette\Localization\ITranslator;
  */
 class Translator implements ITranslator
 {
+
 	/** @var string[] */
 	private $translations;
 
@@ -37,10 +38,21 @@ class Translator implements ITranslator
 		return $this->translations;
 	}
 
-	public function translate($message, $count = null): string
+	public function translate($message, $count = null)
 	{
-		$translations = $this->getTranslations();
-		return $translations[$message] ?? $message;
+		$translation = $this->getTranslations();
+
+		$arr = explode('.', $message);
+		foreach ($arr as $item) {
+			if (!isset($translation[$item])) {
+				return $message;
+			}
+			$translation = $translation[$item];
+		}
+		if (is_array($translation)) {
+			return $message;
+		}
+		return $translation;
 	}
 
 }
