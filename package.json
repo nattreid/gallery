@@ -1,7 +1,7 @@
 {
   "name": "nattreid-gallery",
   "description": "Gallery for Nette Framework",
-  "version": "2.4.4",
+  "version": "2.4.5",
   "main": "./assets/gallery.js",
   "repository": {
 	"type": "git",
@@ -16,6 +16,7 @@
 	"dropzone": "~5.5",
 	"font-awesome": "~4.7",
 	"jquery": "~3.4",
+	"jquery-sortable": "~0.9",
 	"nattreid-utils": "^1.6.2"
   },
   "devDependencies": {
