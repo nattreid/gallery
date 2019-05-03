@@ -52,8 +52,8 @@ class GalleryExtension extends CompilerExtension
 		$loader = $builder->getByType(LoaderFactory::class);
 		try {
 			$builder->getDefinition($loader)
-				->addSetup('addFile', [$path . 'css/gallery.boundled.min.css'])
-				->addSetup('addFile', [$path . 'js/gallery.boundled.js']);
+				->addSetup('addFile', [$path . 'css/gallery.bundled.min.css'])
+				->addSetup('addFile', [$path . 'js/gallery.dropzone.js']);
 		} catch (MissingServiceException $ex) {
 
 		}

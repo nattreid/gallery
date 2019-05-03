@@ -1,7 +1,7 @@
 {
 	"name": "nattreid-gallery",
 	"description": "Gallery for Nette Framework",
-	"version": "2.4.6",
+	"version": "2.4.7",
 	"main": "./assets/gallery.js",
 	"repository": {
 		"type": "git",
