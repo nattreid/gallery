@@ -26,7 +26,7 @@ var paths = {
 var boundledJS = [
     paths.dev.vendor + 'dropzone/dist/dropzone.js',
     paths.dev.vendor + 'jquery/dist/jquery.js',
-    paths.dev.vendor + 'jquery-sortable/source/js/jquery-sortable.js',
+    paths.dev.vendor + 'jquery-ui-sortable/jquery-ui.min.js',
     paths.dev.js + '*.js'
 ];
 
