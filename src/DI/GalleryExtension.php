@@ -39,9 +39,10 @@ class GalleryExtension extends CompilerExtension
 		$config = $this->validateConfig($this->defaults, $this->getConfig());
 		$builder = $this->getContainerBuilder();
 
-		$builder->addDefinition($this->prefix('gallery'))
-			->setFactory(Gallery::class)
+		$builder->addFactoryDefinition($this->prefix('gallery'))
 			->setImplement(IGalleryFactory::class)
+			->getResultDefinition()
+			->setFactory(Gallery::class)
 			->setArguments([$config['maxFileSize'], $config['maxFiles']]);
 	}
 
