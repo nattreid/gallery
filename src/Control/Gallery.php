@@ -24,6 +24,7 @@ use Nette\InvalidArgumentException;
 use Nette\Localization\ITranslator;
 use Nette\Utils\Image;
 use Nette\Utils\Json;
+use \Closure;
 
 /**
  * Galerie
@@ -52,6 +53,9 @@ class Gallery extends Control
 
 	/** @var Request */
 	private $request;
+
+	/** @var Closure */
+	private $onSuccessUpload = null;
 
 	public function __construct(int $maxFileSize, int $maxFiles, ImageStorage $imageStorage, Request $request)
 	{
@@ -342,11 +346,20 @@ class Gallery extends Control
 				exit($this->translator->translate('nattreid.gallery.error.' . $msg));
 			}
 
-			$resource=$this->imageStorage->createResource($file->temporaryFile,$file->sanitizedName);
-			$resource->setNamespace($this->namespace);
-			$this->imageStorage->save($resource);
+			if ($this->onSuccessUpload === null) {
+				$save = true;
+			} else {
+				$func=$this->onSuccessUpload;
+				$save = $func($file);
+			}
 
-			$this->getStorage()->add($resource->getIdentifier());
+			if ($save) {
+				$resource = $this->imageStorage->createResource($file->temporaryFile, $file->sanitizedName);
+				$resource->setNamespace($this->namespace);
+				$this->imageStorage->save($resource);
+
+				$this->getStorage()->add($resource->getIdentifier());
+			}
 		}
 		throw new AbortException;
 	}
@@ -365,6 +378,15 @@ class Gallery extends Control
 		}
 	}
 
+	/**
+	 * @param Closure $func arg FileUpload
+	 * @return void
+	 */
+	public function onSuccessUpload(Closure $func): void
+	{
+		$this->onSuccessUpload = $func;
+	}
+
 	public function render(): void
 	{
 		$this->template->addFilter('translate', [$this->translator, 'translate']);
@@ -379,7 +401,6 @@ class Gallery extends Control
 		$this->template->setFile(__DIR__ . '/gallery.latte');
 		$this->template->render();
 	}
-
 }
 
 interface IGalleryFactory
