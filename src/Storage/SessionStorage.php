@@ -67,7 +67,11 @@ class SessionStorage implements IStorage
 		$result = [];
 		if (!empty($this->variable)) {
 			foreach ($this->variable as $key => $image) {
-				$result[] = new Image($key, $image);
+				if ($image !== null) {
+					$result[] = new Image($key, $image);
+				} else {
+					unset($this->variable[$key]);
+				}
 			}
 		}
 		return $result;
